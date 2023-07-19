@@ -33,14 +33,14 @@ router.get(
 /* --------------------------------------------------  getall category  -------------------------------------------------- */
 router.post(
   "/add-product",
-  upload.fields([{ name: "productImage" }]),
+  upload.fields([{ name: "image" }]),
   AddProduct.controller
 );
 
 /* --------------------------------------------------  getall category  -------------------------------------------------- */
 router.post(
   "/update-product/:id",
-  upload.fields([{ name: "productImage" }]),
+  upload.fields([{ name: "image" }]),
   updateProduct.controller
 );
 

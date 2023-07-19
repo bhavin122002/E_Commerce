@@ -69,7 +69,7 @@ const CardData = () => {
     let searchValue = e.target.value;
     let value = searchValue.split(" ").join("");
     setkayword(value);
-    console.log(e.target.value);
+    console.log("searchValue",e.target.value);
   };
 
   const fetchData = async () => {

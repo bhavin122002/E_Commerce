@@ -1,12 +1,18 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import {
   Box,
   CardMedia,
   CircularProgress,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
+  Pagination,
+  Select,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
@@ -15,6 +21,7 @@ import Shipfast from "./shipfast";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
+// import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import axios from "axios";
 
 const AllProduct = () => {
@@ -23,10 +30,48 @@ const AllProduct = () => {
   const handleRefresh = useCallback(() => setRefresh(!refresh), [refresh]);
 
   const [data, setData] = useState("");
+  const [page, setPage] = useState(1);
+  const [pagePerRecords, setpagePerRecords] = useState("");
+  const [keyword, setkayword] = useState("");
+  const [sortKey] = useState("");
+  const [filter, setFilter] = useState("");
+  const [sortFieldKey, setSortField] = useState({
+    sortFieldKey: "",
+    sortKey: "",
+  });
+
+  const handleChangePrice = (event) => {
+    const value = event.target.value;
+    console.log("firstValue", value);
+    const answer_array = value.split(",");
+    setFilter(value);
+    setSortField((sortFieldKey) => ({
+      ...sortFieldKey,
+      sortFieldKey: answer_array[0],
+      sortKey: answer_array[1],
+    }));
+  };
+
+  // Searching Products
+  const searchSubmitHendler = (e) => {
+    let searchValue = e.target.value;
+    let value = searchValue.split(" ").join("");
+    setkayword(value);
+    console.log("searchValue", e.target.value);
+  };
+
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
+  const handleChangepagePerRecords = () => {
+    setpagePerRecords(12);
+  };
 
   const fetchData = async () => {
     await axios
-      .get(`/api/products/getall-product`)
+      .get(
+        `/api/products/getall-product?page=${page}&pagePerRecords=${pagePerRecords}&sortFieldKey=${sortFieldKey.sortFieldKey}&sortKey=${sortFieldKey.sortKey}&search=${keyword}`
+      )
       .then((data) => {
         console.log("first...", data);
         setData(data?.data?.result);
@@ -52,7 +97,8 @@ const AllProduct = () => {
   };
   useEffect(() => {
     fetchData();
-  }, [refresh]);
+    handleChangepagePerRecords();
+  }, [refresh, page, pagePerRecords, sortFieldKey, sortKey, keyword]);
 
   return (
     <>
@@ -60,19 +106,76 @@ const AllProduct = () => {
         <Typography
           component="h3"
           style={{
-            fontFamily: "ui-monospace",
+            fontFamily: "cursive",
             fontWeight: "800",
             fontSize: "30px",
             margin: "25px 15px 10px 15px",
             textAlign: "center",
             justifyContent: "center",
+            display: "flex",
           }}
         >
           All Product
         </Typography>
-        <div>
+        <div style={{ display: "flex", marginTop: "10px" }}>
+          <h2
+            style={{
+              textAlign: "center",
+              fontFamily: "cursive",
+              marginLeft: "9%",
+            }}
+          >
+            Filter By :
+          </h2>
+          <div>
+            <FormControl sx={{ m: 1, minWidth: 300 }} size="medium">
+              <InputLabel id="demo-select-small-label">Filter</InputLabel>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                value={filter}
+                label="Filter"
+                onChange={handleChangePrice}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="productPrice,1">PRICE - LOW TO HIGH</MenuItem>
+                <MenuItem value="productPrice,-1">
+                  PRICE - HIGH TO LOW{" "}
+                </MenuItem>
+                <MenuItem value="createdAt,1">DATE - NEW TO OLD </MenuItem>
+                <MenuItem value="createdAt,-1">DATE - OLD TO NEW </MenuItem>
+                <MenuItem value="productName,1">NAME - A TO Z</MenuItem>
+                <MenuItem value="productName,-1">NAME - Z TO A </MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <div style={{ margin: "8px", width: 600 }}>
+            <Stack spacing={2}>
+              <Fragment>
+                <form className="searchBox" onChange={searchSubmitHendler}>
+                  <TextField
+                    type="text"
+                    // value="productName"
+                    label="Search a Product"
+                    style={{ marginLeft: "30%", width: 600 }}
+                  />
+                </form>
+              </Fragment>
+            </Stack>
+          </div>
+        </div>
+        <div style={{ marginTop: "10px" }}>
           <Link to={"/singleproduct"}>
-            <Button variant="contained" style={{ marginLeft: "9%" }}>
+            <Button
+              variant="contained"
+              style={{
+                marginLeft: "9%",
+                backgroundColor: "#2fbccc",
+                fontWeight: 700,
+              }}
+            >
               <AddIcon style={{ marginRight: "5px" }} />
               New Add
             </Button>
@@ -174,7 +277,7 @@ const AllProduct = () => {
                               variant="contained"
                               color="error"
                               style={{
-                                marginLeft: "77%",
+                                marginLeft: "49%",
                                 borderRadius: "10px",
                               }}
                               onClick={() => {
@@ -208,6 +311,26 @@ const AllProduct = () => {
           )}
         </div>
       </div>
+      <Box>
+        <Stack
+          spacing={2}
+          style={{
+            fontSize: "70px",
+            alignItems: "center",
+            color: "white",
+          }}
+        >
+          <Pagination
+            page={page}
+            count={10}
+            color="primary"
+            size="large"
+            showFirstButton
+            showLastButton
+            onChange={handleChange}
+          />
+        </Stack>
+      </Box>
     </>
   );
 };

@@ -29,7 +29,7 @@ router.get(
 /* ------------------------  post category  ------------------------ */
 router.post(
   "/add-category",
-  upload.fields([{ name: "image" }]),
+  upload.fields([{ name: "productImage" }]),
   AddCategory.controller
 );
 

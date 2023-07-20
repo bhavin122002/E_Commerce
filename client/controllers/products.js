@@ -19,7 +19,6 @@ module.exports.getAllProduct = {
         sortKey,
         category,
       } = req.query;
-      console.log("Search>>>", req.query.productName);
       let query = {};
       let filter = {};
 
@@ -109,8 +108,10 @@ module.exports.AddProduct = {
   controller: async (req, res) => {
     try {
       if (req.files && Object.keys(req.files).length > 0) {
-        req.body.productImage = `localhost:${process.env.PORT}/${req.files.image.path}`;
+        req.body.productImage = `localhost:${process.env.PORT}/${req.files.productImage.path}`;
       }
+      console.log("First Files", req.files);
+      console.log("First Image", req.body.productImage);
       let data = {
         productName: req.body.productName,
         productImage: req.body.productImage,

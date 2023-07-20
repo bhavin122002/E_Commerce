@@ -243,8 +243,10 @@ function SingleProduct() {
             <TextField
               id="outlined-basic"
               type="file"
+              accept=".png, .jpg , .jpeg"
               onChange={(e) => {
                 setImage(e.target.files[0]);
+                console.log("Image", e.target.files[0]);
               }}
               variant="outlined"
               style={{ width: "50%" }}
@@ -254,7 +256,7 @@ function SingleProduct() {
       </Box>
       <Box style={{ margin: "30px 0 20px 47px" }}>
         <Stack spacing={2} direction="row">
-          <NavLink to={"/"}>
+          <NavLink to={"/allproduct"}>
             <Button
               variant="contained"
               color="secondary"

@@ -15,39 +15,31 @@ const { upload } = require("../helper/imageUpload");
 /* --------------------------------------------------  getall category  -------------------------------------------------- */
 router.get(
   "/getall-product",
+  upload.fields([{ name: "productImage" }]),
   getAllProduct.controller
 );
 
 /* --------------------------------------------------  getall category  -------------------------------------------------- */
-router.get(
-  "/productdata/:id",
-  getSingleProduct.controller
-);
+router.get("/productdata/:id", getSingleProduct.controller);
 
 /* --------------------------------------------------  getall category  -------------------------------------------------- */
-router.get(
-  "/addtocart/:id",
-  getSingleProductAddtocart.controller
-);
+router.get("/addtocart/:id", getSingleProductAddtocart.controller);
 
 /* --------------------------------------------------  getall category  -------------------------------------------------- */
 router.post(
   "/add-product",
-  upload.fields([{ name: "image" }]),
+  upload.fields([{ name: "productImage" }]),
   AddProduct.controller
 );
 
 /* --------------------------------------------------  getall category  -------------------------------------------------- */
 router.post(
   "/update-product/:id",
-  upload.fields([{ name: "image" }]),
+  upload.fields([{ name: "productImage" }]),
   updateProduct.controller
 );
 
 /* --------------------------------------------------  getall category  -------------------------------------------------- */
-router.delete(
-  "/delete-product/:id",
-  deleteProduct.controller
-);
+router.delete("/delete-product/:id", deleteProduct.controller);
 
 module.exports = router;

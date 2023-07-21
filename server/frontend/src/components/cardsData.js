@@ -132,7 +132,7 @@ const CardData = () => {
                 <TextField
                   type="text"
                   // value="productName"
-                  label="Search a Product"
+                  label="🔍Search a Product"
                   style={{ marginLeft: "30%", width: 600 }}
                 />
               </form>

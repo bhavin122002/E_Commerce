@@ -243,7 +243,6 @@ function SingleProduct() {
             <TextField
               id="outlined-basic"
               type="file"
-              accept=".png, .jpg , .jpeg"
               onChange={(e) => {
                 setImage(e.target.files[0]);
                 console.log("Image", e.target.files[0]);

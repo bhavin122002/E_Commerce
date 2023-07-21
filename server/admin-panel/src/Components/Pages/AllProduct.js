@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import { Link } from "react-router-dom";
+import Paper from "@mui/material/Paper";
 import Shipfast from "./shipfast";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -158,7 +159,7 @@ const AllProduct = () => {
                   <TextField
                     type="text"
                     // value="productName"
-                    label="Search a Product"
+                    label="🔍Search a Product"
                     style={{ marginLeft: "30%", width: 600 }}
                   />
                 </form>
@@ -207,14 +208,17 @@ const AllProduct = () => {
                     maxWidth: "20%",
                   }}
                 >
-                  <Card style={{ borderRadius: "8px" }}>
+                  <Card
+                    component={Paper}
+                    sx={{ boxShadow: 4 }}
+                    style={{ borderRadius: "8px", marginBottom: "10px" }}
+                  >
                     <Shipfast />
                     <CardMedia
                       sx={{ height: 250, width: 330, margin: "5px" }}
                       image={element.productImage}
                       title="Image Not Found"
                       component="img"
-                      // onClick={() => cards(element.id)}
                     />
                     <div
                       style={{
@@ -277,7 +281,7 @@ const AllProduct = () => {
                               variant="contained"
                               color="error"
                               style={{
-                                marginLeft: "49%",
+                                marginLeft: "130px",
                                 borderRadius: "10px",
                               }}
                               onClick={() => {

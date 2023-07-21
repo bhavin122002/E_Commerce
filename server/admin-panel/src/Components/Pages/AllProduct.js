@@ -267,6 +267,7 @@ const AllProduct = () => {
                               style={{
                                 marginLeft: "10px",
                                 borderRadius: "10px",
+                                marginBottom: "8px",
                               }}
                             >
                               <EditIcon
@@ -281,8 +282,9 @@ const AllProduct = () => {
                               variant="contained"
                               color="error"
                               style={{
-                                marginLeft: "130px",
+                                marginLeft: "133px",
                                 borderRadius: "10px",
+                                marginBottom: "8px",
                               }}
                               onClick={() => {
                                 console.log("id========", element._id);

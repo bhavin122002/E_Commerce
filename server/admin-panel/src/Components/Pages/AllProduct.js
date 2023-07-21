@@ -29,7 +29,6 @@ const AllProduct = () => {
   // Page auto refreshed
   const [refresh, setRefresh] = useState(false);
   const handleRefresh = useCallback(() => setRefresh(!refresh), [refresh]);
-
   const [data, setData] = useState("");
   const [page, setPage] = useState(1);
   const [pagePerRecords, setpagePerRecords] = useState("");
@@ -215,7 +214,7 @@ const AllProduct = () => {
                   >
                     <Shipfast />
                     <CardMedia
-                      sx={{ height: 250, width: 330, margin: "5px" }}
+                      sx={{ height: 250, width: 370, margin: "5px" }}
                       image={element.productImage}
                       title="Image Not Found"
                       component="img"

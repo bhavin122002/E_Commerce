@@ -108,7 +108,7 @@ module.exports.AddProduct = {
   controller: async (req, res) => {
     try {
       if (req.files && Object.keys(req.files).length > 0) {
-        req.body.productImage = `localhost:${process.env.PORT}/${req.files.productImage.path}`;
+        req.body.productImage = `http://localhost:${process.env.PORT}/${req.files.productImage.path}`;
       }
       console.log("First Files", req.files);
       console.log("First Image", req.body.productImage);

@@ -30,6 +30,8 @@ function SingleProduct() {
   });
   const [image, setImage] = useState("");
   console.log("successfully created product", data);
+  console.log("successfully created Image", image);
+  console.log("successfully product", users);
   const location = useLocation();
   const propsData = location.state;
 
@@ -57,17 +59,23 @@ function SingleProduct() {
   };
 
   const addData = async () => {
+    const formData = new FormData();
+    formData.append("productName", users?.productName);
+    formData.append("productImage", image);
+    formData.append("productPrice", users?.productPrice);
+    formData.append("productSize", users?.productSize);
+    formData.append("productMetal", users?.productMetal);
+    formData.append("dummyPrice", users?.dummyPrice);
+    formData.append("category", users?.category);
+    formData.append("productDescription", users?.productDescription);
     axios
-      .post("/api/products/add-product", {
-        productName: users?.productName,
-        productImage: image?.name,
-        productPrice: users?.productPrice,
-        productSize: users?.productSize,
-        productMetal: users?.productMetal,
-        dummyPrice: users?.dummyPrice,
-        category: users?.category,
-        productDescription: users?.productDescription,
-      })
+      .post(
+        "/api/products/add-product",
+        formData,
+        {
+          headers: { "Content-Type": "application" },
+        }
+      )
       .then((data) => {
         console.log("first...", data);
         setData(data);

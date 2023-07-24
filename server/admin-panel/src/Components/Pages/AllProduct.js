@@ -4,6 +4,7 @@ import Card from "@mui/material/Card";
 import {
   Box,
   CardMedia,
+  CardActionArea,
   CircularProgress,
   FormControl,
   Grid,
@@ -22,13 +23,13 @@ import Shipfast from "./shipfast";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-// import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import axios from "axios";
 
 const AllProduct = () => {
   // Page auto refreshed
   const [refresh, setRefresh] = useState(false);
   const handleRefresh = useCallback(() => setRefresh(!refresh), [refresh]);
+
   const [data, setData] = useState("");
   const [page, setPage] = useState(1);
   const [pagePerRecords, setpagePerRecords] = useState("");
@@ -213,12 +214,14 @@ const AllProduct = () => {
                     style={{ borderRadius: "8px", marginBottom: "10px" }}
                   >
                     <Shipfast />
-                    <CardMedia
-                      sx={{ height: 250, width: 370, margin: "5px" }}
-                      image={element.productImage}
-                      title="Image Not Found"
-                      component="img"
-                    />
+                    <CardActionArea>
+                      <CardMedia
+                        sx={{ height: 250, width: 370, margin: "5px" }}
+                        src={element.productImage}
+                        title="Image Not Found"
+                        component="img"
+                      />
+                    </CardActionArea>
                     <div
                       style={{
                         borderTop: "1px solid #d9dbe9",

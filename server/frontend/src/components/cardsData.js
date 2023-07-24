@@ -3,12 +3,13 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import {
   Box,
-  CardMedia,
   CircularProgress,
   Grid,
   TextField,
+  CardActionArea,
   Typography,
 } from "@mui/material";
+import CardMedia from '@mui/material/CardMedia';
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -69,7 +70,7 @@ const CardData = () => {
     let searchValue = e.target.value;
     let value = searchValue.split(" ").join("");
     setkayword(value);
-    console.log("searchValue",e.target.value);
+    console.log("searchValue", e.target.value);
   };
 
   const fetchData = async () => {
@@ -154,6 +155,9 @@ const CardData = () => {
         >
           {data ? (
             data?.map((element, id) => {
+              {
+                console.log("Image", element.productImage);
+              }
               return (
                 <Grid
                   key={id}
@@ -169,12 +173,15 @@ const CardData = () => {
                   >
                     <Shipfast />
                     <Link to={`/productdata/${element._id}`}>
-                      <CardMedia
-                        sx={{ height: 250, width: 250 }}
-                        image={element.productImage}
-                        title="green iguana"
-                        onClick={() => cards(element.id)}
-                      />
+                      <CardActionArea>
+                        <CardMedia
+                          sx={{ height: 250, width: 370, padding: "5px" }}
+                          src={element.productImage}
+                          title="green iguana"
+                          component="img"
+                          onClick={() => cards(element.id)}
+                        />
+                      </CardActionArea>
                     </Link>
                     <div
                       style={{

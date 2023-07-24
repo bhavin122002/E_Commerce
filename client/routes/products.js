@@ -13,11 +13,7 @@ const {
 const { upload } = require("../helper/imageUpload");
 
 /* --------------------------------------------------  getall category  -------------------------------------------------- */
-router.get(
-  "/getall-product",
-  upload.fields([{ name: "productImage" }]),
-  getAllProduct.controller
-);
+router.get("/getall-product", getAllProduct.controller);
 
 /* --------------------------------------------------  getall category  -------------------------------------------------- */
 router.get("/productdata/:id", getSingleProduct.controller);

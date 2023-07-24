@@ -1,9 +1,11 @@
 const multer = require("multer");
 
-
 const storage = multer.diskStorage({
-  destination: "/src/images",
+  destination: (req, file, cb) => {
+    cb(null, "images/");
+  },
   filename: (req, file, cb) => {
+    console.log("first file", file);
     return cb(null, `${Date.now()}_${file.originalname}`);
   },
 });

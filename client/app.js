@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 });
 
 /* ------------  images  ------------ */
-app.use("/src/images", express.static("src/images"));
+app.use("/images", express.static("images"));
 
 // middleware or to set router
 app.use("/api/products", require("./routes/products"));

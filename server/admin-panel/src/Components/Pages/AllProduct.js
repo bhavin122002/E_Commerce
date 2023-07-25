@@ -197,9 +197,6 @@ const AllProduct = () => {
         >
           {data ? (
             data?.map((element, id) => {
-              {
-                console.log("element.productImage", element.productImage);
-              }
               return (
                 <Grid
                   key={id}

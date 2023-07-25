@@ -109,7 +109,7 @@ module.exports.AddProduct = {
     try {
       if (req.files && Object.keys(req.files).length > 0) {
         req.body.productImage =
-          `http://localhost:${process.env.PORT}/${req.files.productImage[0].path}`
+          `https://node-crud-only.onrender.com/${req.files.productImage[0].path}`
             .replace(/\\/g, "/")
             .replace(/^\/+/g, "");
       }
@@ -144,8 +144,8 @@ module.exports.updateProduct = {
   controller: async (req, res) => {
     try {
       if (req.files && Object.keys(req.files).length > 0) {
-        console.log("Testing Image update",req.files);
-        req.body.productImage = `http://localhost:${process.env.PORT}/${req.files.productImage[0].path}`;
+        console.log("Testing Image update", req.files);
+        req.body.productImage = `https://node-crud-only.onrender.com/${req.files.productImage[0].path}`;
       }
 
       /*  ----------------- update Product ----------------- */

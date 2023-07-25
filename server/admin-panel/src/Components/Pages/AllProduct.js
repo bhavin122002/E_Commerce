@@ -272,7 +272,7 @@ const AllProduct = () => {
                               <EditIcon
                                 style={{ margin: "8px", color: "white" }}
                               />
-                              <span style={{ marginTop: "8px" }}> Edit</span>
+                              <span style={{ marginTop: "8px" }}>Edit</span>
                             </Button>
                           </Link>
                           <Link to={`/allproduct`}>
@@ -286,7 +286,6 @@ const AllProduct = () => {
                                 marginBottom: "8px",
                               }}
                               onClick={() => {
-                                console.log("id========", element._id);
                                 DeleteButton(element._id);
                               }}
                             >

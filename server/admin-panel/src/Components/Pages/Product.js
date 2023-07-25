@@ -17,6 +17,7 @@ import { NavLink, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 
 function Product(props) {
+  const [image, setImage] = useState("");
   const [data, setData] = useState("");
   const [user, setUser] = useState({
     productName: "",
@@ -28,10 +29,9 @@ function Product(props) {
     category: "",
     productDescription: "",
   });
-  console.log("successfully created product", data);
+
   const location = useLocation();
   let { id } = useParams();
-  console.log("first id", id);
   const propsData = location.state;
 
   const handleChangeVelue = (e) => {
@@ -41,34 +41,50 @@ function Product(props) {
       [name]: value,
     });
   };
-
+  console.log("update data", user, data);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      productName: data.get("productName"),
-      productImage: data.get("productImage"),
-      productPrice: data.get("productPrice"),
-      productSize: data.get("productSize"),
-      productMetal: data.get("productMetal"),
-      dummyPrice: data.get("dummyPrice"),
-      category: data.get("category"),
-      productDescription: data.get("productDescription"),
+      productName: data?.get("productName"),
+      productImage: data?.get("productImage"),
+      productPrice: data?.get("productPrice"),
+      productSize: data?.get("productSize"),
+      productMetal: data?.get("productMetal"),
+      dummyPrice: data?.get("dummyPrice"),
+      category: data?.get("category"),
+      productDescription: data?.get("productDescription"),
     });
   };
 
   const updateData = async () => {
+    const formData = new FormData();
+    formData.append("productName", user?.productName);
+    formData.append("productImage", image);
+    formData.append("productPrice", user?.productPrice);
+    formData.append("productSize", user?.productSize);
+    formData.append("productMetal", user?.productMetal);
+    formData.append("dummyPrice", user?.dummyPrice);
+    formData.append("category", user?.category);
+    formData.append("productDescription", user?.productDescription);
     axios
-      .post(`/api/products/update-product/${id}`, {
-        productName: user.productName,
-        productImage: user.productImage,
-        productPrice: user.productPrice,
-        productSize: user.productSize,
-        productMetal: user.productMetal,
-        dummyPrice: user.dummyPrice,
-        category: user.category,
-        productDescription: user.productDescription,
-      })
+      .post(
+        `/api/products/update-product/${id}`,
+        formData,
+        {
+          headers: { "Content-Type": "application" },
+        }
+        //  {
+        //   productName: user?.productName,
+        //   productImage: user?.productImage,
+        //   productPrice: user?.productPrice,
+        //   productSize: user?.productSize,
+        //   productMetal: user?.productMetal,
+        //   dummyPrice: user?.dummyPrice,
+        //   category: user?.category,
+        //   productDescription: user?.productDescription,
+        // }
+      )
       .then((data) => {
         console.log("first...", data);
         setData(data);
@@ -249,7 +265,11 @@ function Product(props) {
             <TextField
               id="outlined-basic"
               type="file"
-              onChange={handleChangeVelue}
+              // value={formData.productImage}
+              onChange={(e) => {
+                setImage(e.target.files[0]);
+                console.log("Image", e.target.files[0]);
+              }}
               variant="outlined"
               style={{ width: "50%" }}
             />

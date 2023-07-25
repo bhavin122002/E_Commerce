@@ -95,7 +95,10 @@ function ProductDetial() {
                   </p>
                 </div>
               </div>
-              <img src={datanew.productImage} style={{ width: "50%" }} />
+              <img
+                src={datanew.productImage}
+                style={{ width: "50%", margin: "10px 20px 0 20px" }}
+              />
             </Grid>
             <Grid style={{ width: "50%" }}>
               <div

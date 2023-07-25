@@ -95,7 +95,13 @@ function AddtoCart() {
                   </p>
                 </div>
                 <div style={{ display: "flex" }}>
-                  <div style={{ width: "20%", marginRight: "40px" }}>
+                  <div
+                    style={{
+                      width: "20%",
+                      marginRight: "40px",
+                      marginTop: "15px",
+                    }}
+                  >
                     <img className="image_class" src={datanew.productImage} />
                   </div>
                   <div style={{ width: "80%" }}>
@@ -484,7 +490,7 @@ function AddtoCart() {
                           textAlign: "right",
                         }}
                       >
-                        ₹33,066.89
+                        ₹ {datanew.productPrice}
                       </span>
                     </div>
                   </div>
@@ -521,7 +527,7 @@ function AddtoCart() {
                         padding: "0 24px 16px",
                       }}
                     >
-                      ₹4,727.16
+                      ₹ {datanew.productPrice}
                     </span>
                   </div>
                 </div>

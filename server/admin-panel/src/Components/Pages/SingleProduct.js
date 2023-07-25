@@ -69,13 +69,9 @@ function SingleProduct() {
     formData.append("category", users?.category);
     formData.append("productDescription", users?.productDescription);
     axios
-      .post(
-        "/api/products/add-product",
-        formData,
-        {
-          headers: { "Content-Type": "application" },
-        }
-      )
+      .post("/api/products/add-product", formData, {
+        headers: { "Content-Type": "application" },
+      })
       .then((data) => {
         console.log("first...", data);
         setData(data);

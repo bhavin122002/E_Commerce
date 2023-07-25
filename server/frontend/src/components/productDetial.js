@@ -15,7 +15,7 @@ function ProductDetial() {
   const fetchData = async () => {
     console.log("fetch data == ", id);
     await axios
-      .get(`/api/products/productdata/${id}`)
+      .get(`https://node-crud-only.onrender.com/api/products/productdata/${id}`)
       .then((data) => {
         console.log("idd ===== ", data?.data?.myData[0]);
         setData(data?.data?.myData[0]);

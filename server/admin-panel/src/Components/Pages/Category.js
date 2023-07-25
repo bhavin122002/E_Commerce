@@ -57,7 +57,7 @@ export default function Category() {
   // All data loaded
   const coustemer = async () => {
     try {
-      const response = await fetch("/category/getall-category", {
+      const response = await fetch("https://node-crud-only.onrender.com/category/getall-category", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -109,7 +109,7 @@ export default function Category() {
   //Single Category Add
   const addCategory = async (res, req) => {
     axios
-      .post(`/category/add-category`, {
+      .post(`https://node-crud-only.onrender.com/category/add-category`, {
         categoryName: category.categoryName,
       })
       .then((data) => {
@@ -126,7 +126,7 @@ export default function Category() {
   //Single Category Update
   const updateCategory = async () => {
     axios
-      .post(`/category/update-category/${userid}`, {
+      .post(`https://node-crud-only.onrender.com/category/update-category/${userid}`, {
         categoryName: editcategory.categoryName,
       })
       .then((data) => {
@@ -143,7 +143,7 @@ export default function Category() {
   //Single Category Delete
   const DeleteButton = (id) => {
     axios
-      .delete(`/category/delete-category/${id}`)
+      .delete(`https://node-crud-only.onrender.com/category/delete-category/${id}`)
       .then((response) => {
         handleRefresh();
         // Handle success

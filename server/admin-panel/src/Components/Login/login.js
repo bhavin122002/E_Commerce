@@ -32,7 +32,7 @@ export default function Login() {
   const login = async () => {
     try {
       const response = await fetch(
-        "/login/loginadmin",
+        "https://node-crud-only.onrender.com/login/loginadmin",
         // user
         {
           method: "POST",

@@ -22,7 +22,7 @@ function AddtoCart() {
   const fetchData = async () => {
     console.log("fetch data == ", id);
     await axios
-      .get(`/api/products/addtocart/${id}`)
+      .get(`https://node-crud-only.onrender.com/api/products/addtocart/${id}`)
       .then((data) => {
         console.log("idd ===== ", data?.data?.myData[0]);
         setData(data?.data?.myData[0]);

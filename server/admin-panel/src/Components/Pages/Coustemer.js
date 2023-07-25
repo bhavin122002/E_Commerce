@@ -29,7 +29,7 @@ export default function Product() {
 
   const coustemer = async () => {
     try {
-      const response = await fetch("/coustemer/getalladmin", {
+      const response = await fetch("https://node-crud-only.onrender.com/coustemer/getalladmin", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

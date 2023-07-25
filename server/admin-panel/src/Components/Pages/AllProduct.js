@@ -71,7 +71,7 @@ const AllProduct = () => {
   const fetchData = async () => {
     await axios
       .get(
-        `/api/products/getall-product?page=${page}&pagePerRecords=${pagePerRecords}&sortFieldKey=${sortFieldKey.sortFieldKey}&sortKey=${sortFieldKey.sortKey}&search=${keyword}`
+        `https://node-crud-only.onrender.com/api/products/getall-product?page=${page}&pagePerRecords=${pagePerRecords}&sortFieldKey=${sortFieldKey.sortFieldKey}&sortKey=${sortFieldKey.sortKey}&search=${keyword}`
       )
       .then((data) => {
         console.log("first...", data);
@@ -84,7 +84,7 @@ const AllProduct = () => {
 
   const DeleteButton = (id) => {
     axios
-      .delete(`/api/products/delete-product/${id}`)
+      .delete(`https://node-crud-only.onrender.com/api/products/delete-product/${id}`)
       .then((response) => {
         handleRefresh();
         // Handle success

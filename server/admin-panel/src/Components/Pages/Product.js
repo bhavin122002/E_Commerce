@@ -69,21 +69,11 @@ function Product(props) {
     formData.append("productDescription", user?.productDescription);
     axios
       .post(
-        `/api/products/update-product/${id}`,
+        `https://node-crud-only.onrender.com/api/products/update-product/${id}`,
         formData,
         {
           headers: { "Content-Type": "application" },
         }
-        //  {
-        //   productName: user?.productName,
-        //   productImage: user?.productImage,
-        //   productPrice: user?.productPrice,
-        //   productSize: user?.productSize,
-        //   productMetal: user?.productMetal,
-        //   dummyPrice: user?.dummyPrice,
-        //   category: user?.category,
-        //   productDescription: user?.productDescription,
-        // }
       )
       .then((data) => {
         console.log("first...", data);

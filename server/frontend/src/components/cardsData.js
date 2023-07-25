@@ -76,7 +76,7 @@ const CardData = () => {
   const fetchData = async () => {
     await axios
       .get(
-        `/api/products/getall-product?category=${categoryId}&page=${page}&pagePerRecords=${pagePerRecords}&sortFieldKey=${sortFieldKey.sortFieldKey}&sortKey=${sortFieldKey.sortKey}&search=${keyword}`
+        `https://node-crud-only.onrender.com/api/products/getall-product?category=${categoryId}&page=${page}&pagePerRecords=${pagePerRecords}&sortFieldKey=${sortFieldKey.sortFieldKey}&sortKey=${sortFieldKey.sortKey}&search=${keyword}`
       )
       .then((data) => {
         console.log("first...", data);

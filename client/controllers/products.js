@@ -156,7 +156,6 @@ module.exports.updateProduct = {
           new: true,
         }
       );
-      // console.log("first update", JSON.stringify(updateProduct));
       return res.send(
         successResponse(
           StatusCodes.OK,

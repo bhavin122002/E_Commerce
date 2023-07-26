@@ -11,9 +11,9 @@ const {
 router.get("/getalladmin", getAllAdmin.controller);
 
 /* --------------------------------------------------  get Single Admin  -------------------------------------------------- */
-router.get("/loginadmin", getSingleUsers.controller);
+router.post("/loginadmin", getSingleUsers.controller);
 
 /* --------------------------------------------------  get Single Register  -------------------------------------------------- */
-router.get("/registeradmin", getAllUsers.controller);
+router.post("/registeradmin", getAllUsers.controller);
 
 module.exports = router;

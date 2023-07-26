@@ -59,7 +59,7 @@ module.exports.AddCategory = {
   controller: async (req, res) => {
     try {
       if (req.files && Object.keys(req.files).length > 0) {
-        req.body.categoryImage = `https://node-crud-only.onrender.com/${req.files.image[0].path}`;
+        req.body.categoryImage = `localhost:${process.env.PORT}/${req.files.image[0].path}`;
       }
       /*  ----------------- create a new category ----------------- */
       let category = await Category.create(req.body);

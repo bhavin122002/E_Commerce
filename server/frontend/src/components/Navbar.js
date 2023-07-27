@@ -130,7 +130,7 @@ function ResponsiveAppBar() {
               </Typography>
             </NavLink>
             <NavLink
-              to={"/product/Bracelets-Bangles"}
+              to={"/product/Bracelets_Bangles"}
               style={{
                 display: "flex",
                 cursor: "pointer",
@@ -138,7 +138,7 @@ function ResponsiveAppBar() {
               }}
             >
               <Typography
-                href="/product/Bracelets-Bangles"
+                href="/product/Bracelets_Bangles"
                 sx={{ my: 2, color: "white", display: "flex" }}
                 onClick={(e) => {
                   getValueNavbar(e);

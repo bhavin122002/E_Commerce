@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -34,6 +34,10 @@ function SingleProduct() {
   console.log("successfully product", users);
   const location = useLocation();
   const propsData = location.state;
+
+  // Page auto refreshed
+  const [refresh, setRefresh] = useState(false);
+  const handleRefresh = useCallback(() => setRefresh(!refresh), [refresh]);
 
   const handleChangeVelue = (e) => {
     const { name, value } = e.target;
@@ -79,15 +83,17 @@ function SingleProduct() {
       .then((data) => {
         console.log("first...", data);
         setData(data);
+        handleRefresh();
       })
       .catch((err) => {
+        handleRefresh();
         console.log(err);
       });
   };
 
   useEffect(() => {
     setUser(propsData);
-  }, []);
+  }, [refresh]);
 
   return (
     <>

@@ -225,11 +225,11 @@ function Product(props) {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={"rings"}>rings</MenuItem>
-                <MenuItem value={"drops"}>drops</MenuItem>
-                <MenuItem value={"earrings"}>earrings</MenuItem>
-                <MenuItem value={"hoopearrings"}>hoopearrings</MenuItem>
-                <MenuItem value={"braceletsbangles"}>braceletsbangles</MenuItem>
+                <MenuItem value={"Rings"}>Rings</MenuItem>
+                <MenuItem value={"Drops"}>Drops</MenuItem>
+                <MenuItem value={"Earrings"}>Earrings</MenuItem>
+                <MenuItem value={"HoopEarrings"}>Hoopearrings</MenuItem>
+                <MenuItem value={"Bracelets_Bangles"}>Braceletsbangles</MenuItem>
               </Select>
             </FormControl>
           </Box>

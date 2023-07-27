@@ -230,7 +230,7 @@ function SingleProduct() {
                 <MenuItem value={"Drops"}>Drops</MenuItem>
                 <MenuItem value={"Earrings"}>Earrings</MenuItem>
                 <MenuItem value={"HoopEarrings"}>HoopEarrings</MenuItem>
-                <MenuItem value={"Bracelets&Bangles"}>
+                <MenuItem value={"Bracelets_Bangles"}>
                   Bracelets & Bangles
                 </MenuItem>
               </Select>

@@ -36,6 +36,7 @@ export default function Category() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [updataData, setUpdataData] = useState("");
   const [userid, setUserid] = useState("");
+  const [deleteid, setDeleteId] = useState("");
   const [editcategory, setEditcategory] = useState({
     categoryName: "",
   });
@@ -44,14 +45,15 @@ export default function Category() {
   });
   console.log("Edit Category", updataData);
   console.log(" Category ID", userid);
+  console.log(" Delete ID", deleteid);
 
   // Edit Models
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   // Delete Models
-  const [opens, setOpens] = React.useState(false);
+  const [opens, setOpens] = useState(false);
   const handleOpens = () => setOpens(true);
   const handleCloses = () => setOpens(false);
 
@@ -115,6 +117,11 @@ export default function Category() {
     });
   };
 
+  const handleDeleteCategorySubmit = (event) => {
+    event.preventDefault();
+    handleOpens();
+  };
+
   //Single Category Add
   const addCategory = async (res, req) => {
     axios
@@ -156,7 +163,7 @@ export default function Category() {
   const DeleteButton = (id) => {
     axios
       .delete(
-        `https://node-crud-only.onrender.com/category/delete-category/${id}`
+        `https://node-crud-only.onrender.com/category/delete-category/${deleteid}`
       )
       .then((response) => {
         handleRefresh();
@@ -456,7 +463,7 @@ export default function Category() {
                       onCloses={handleCloses}
                       aria-labelledby="modal-modal-title"
                       aria-describedby="modal-modal-description"
-                      onSubmit={handleEditCategorySubmit}
+                      onSubmit={handleDeleteCategorySubmit}
                     >
                       <Box sx={style}>
                         <Typography
@@ -507,6 +514,7 @@ export default function Category() {
                       }}
                       onClick={() => {
                         handleOpens(user._id);
+                        setDeleteId(user._id);
                       }}
                     >
                       <DeleteIcon style={{ marginRight: "5px" }} />

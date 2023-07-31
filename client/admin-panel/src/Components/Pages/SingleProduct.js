@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
+
 import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
 
@@ -97,6 +98,7 @@ function SingleProduct() {
 
   return (
     <>
+     
       <Box
         style={{
           width: "90%",

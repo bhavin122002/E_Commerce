@@ -45,10 +45,15 @@ export default function Category() {
   console.log("Edit Category", updataData);
   console.log(" Category ID", userid);
 
-  // Models
+  // Edit Models
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  // Delete Models
+  const [opens, setOpens] = React.useState(false);
+  const handleOpens = () => setOpens(true);
+  const handleCloses = () => setOpens(false);
 
   // Page auto refreshed
   const [refresh, setRefresh] = useState(false);
@@ -57,12 +62,15 @@ export default function Category() {
   // All data loaded
   const coustemer = async () => {
     try {
-      const response = await fetch("https://node-crud-only.onrender.com/category/getall-category", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "https://node-crud-only.onrender.com/category/getall-category",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await response.json();
       console.log("response:", data);
       setUser(data.result);
@@ -70,6 +78,7 @@ export default function Category() {
       console.log("invalid input", error);
     }
   };
+
   useEffect(() => {
     coustemer();
   }, [refresh]);
@@ -126,9 +135,12 @@ export default function Category() {
   //Single Category Update
   const updateCategory = async () => {
     axios
-      .post(`https://node-crud-only.onrender.com/category/update-category/${userid}`, {
-        categoryName: editcategory.categoryName,
-      })
+      .post(
+        `https://node-crud-only.onrender.com/category/update-category/${userid}`,
+        {
+          categoryName: editcategory.categoryName,
+        }
+      )
       .then((data) => {
         console.log("first...", data);
         setUpdataData(data);
@@ -143,7 +155,9 @@ export default function Category() {
   //Single Category Delete
   const DeleteButton = (id) => {
     axios
-      .delete(`https://node-crud-only.onrender.com/category/delete-category/${id}`)
+      .delete(
+        `https://node-crud-only.onrender.com/category/delete-category/${id}`
+      )
       .then((response) => {
         handleRefresh();
         // Handle success
@@ -353,10 +367,10 @@ export default function Category() {
                     page * rowsPerPage + rowsPerPage
                   )
                 : user
-              )?.map((user) => (
+              )?.map((user, index) => (
                 <TableRow key={user.name}>
                   <TableCell style={{ width: 160 }} align="left">
-                    {user._id}
+                    {index + 1}
                   </TableCell>
                   <TableCell style={{ width: 160 }} align="left">
                     {user.categoryName}
@@ -407,8 +421,10 @@ export default function Category() {
                           fontWeight: "bold",
                         }}
                         sx={{ mt: 2 }}
-                        onClick={updateCategory}
-                        onClose={handleClose}
+                        onClick={() => {
+                          updateCategory();
+                          handleClose();
+                        }}
                       >
                         <FileDownloadDoneIcon style={{ marginRight: "5px" }} />
                         Save
@@ -426,7 +442,7 @@ export default function Category() {
                         borderRadius: "15px",
                         fontWeight: "bold",
                       }}
-                      onClick={(e) => {
+                      onClick={() => {
                         handleOpen(user._id);
                         setUserid(user._id);
                       }}
@@ -434,6 +450,52 @@ export default function Category() {
                       <EditIcon style={{ marginRight: "5px" }} />
                       Edit
                     </Button>
+
+                    <Modal
+                      opens={opens}
+                      onCloses={handleCloses}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                      onSubmit={handleEditCategorySubmit}
+                    >
+                      <Box sx={style}>
+                        <Typography
+                          id="modal-modal-title"
+                          variant="h6"
+                          component="h2"
+                          style={{
+                            textAlign: "center",
+                            fontSize: "30px",
+                            fontWeight: "800",
+                            fontFamily: "monospace",
+                          }}
+                        >
+                          Are you sure you want to delete the category.
+                        </Typography>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          style={{
+                            padding: "10px",
+                            width: "200px",
+                            borderRadius: "15px",
+                            fontWeight: "bold",
+                          }}
+                          sx={{ mt: 2 }}
+                          onClick={() => {
+                            DeleteButton(user._id);
+                            console.log("User deleted", user._id);
+                            handleCloses();
+                          }}
+                        >
+                          <FileDownloadDoneIcon
+                            style={{ marginRight: "5px" }}
+                          />
+                          Confirmed
+                        </Button>
+                      </Box>
+                    </Modal>
+
                     <Button
                       variant="contained"
                       color="error"
@@ -444,8 +506,7 @@ export default function Category() {
                         fontWeight: "bold",
                       }}
                       onClick={() => {
-                        console.log("id ==========", user._id);
-                        DeleteButton(user._id);
+                        handleOpens(user._id);
                       }}
                     >
                       <DeleteIcon style={{ marginRight: "5px" }} />

@@ -43,7 +43,7 @@ export default function Login() {
         }
       );
       console.log("response: " + response);
-      alert("Login Successfully logged");
+      alert("Login Successfully");
       history("/");
     } catch (error) {
       console.error(`error: ${error.message}`);

@@ -14,9 +14,11 @@ import {
 import Paper from "@mui/material/Paper";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 import { NavLink, useLocation, useParams } from "react-router-dom";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import ClearIcon from '@mui/icons-material/Clear';
 import axios from "axios";
 
-function Product(props) {
+function Product() {
   const [image, setImage] = useState("");
   const [data, setData] = useState("");
   const [user, setUser] = useState({
@@ -90,6 +92,22 @@ function Product(props) {
 
   return (
     <>
+      <Stack direction="row" spacing={2} style={{ margin: "20px 0 0 60px" }}>
+        <Button
+          variant="contained"
+          style={{
+            backgroundColor: "#2fbccc",
+            color: "white",
+            fontWeight: "bold",
+            textAlign: "center",
+            borderRadius: "15px",
+          }}
+          href="/allproduct"
+        >
+          <KeyboardArrowLeftIcon style={{ marginRight: "5px" }} />
+          Back
+        </Button>
+      </Stack>
       <Box
         style={{
           width: "90%",
@@ -229,7 +247,9 @@ function Product(props) {
                 <MenuItem value={"Drops"}>Drops</MenuItem>
                 <MenuItem value={"Earrings"}>Earrings</MenuItem>
                 <MenuItem value={"HoopEarrings"}>Hoopearrings</MenuItem>
-                <MenuItem value={"Bracelets_Bangles"}>Braceletsbangles</MenuItem>
+                <MenuItem value={"Bracelets_Bangles"}>
+                  Braceletsbangles
+                </MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -268,7 +288,7 @@ function Product(props) {
       </Box>
       <Box style={{ margin: "30px 0 20px 47px" }}>
         <Stack spacing={2} direction="row">
-          <NavLink to={"/"}>
+          <NavLink to={"/allproduct"}>
             <Button
               variant="contained"
               color="secondary"
@@ -282,6 +302,22 @@ function Product(props) {
             >
               <FileDownloadDoneIcon style={{ marginRight: "5px" }} />
               Save
+            </Button>
+          </NavLink>
+          <NavLink to={"/allproduct"}>
+            <Button
+              variant="contained"
+              color="error"
+              style={{
+                padding: "10px",
+                width: "200px",
+                borderRadius: "15px",
+                fontWeight: "bold",
+              }}
+              onClick={updateData}
+            >
+              <ClearIcon style={{ marginRight: "5px" }} />
+              Cancel
             </Button>
           </NavLink>
         </Stack>

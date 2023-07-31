@@ -13,12 +13,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import PersonIcon from "@mui/icons-material/Person";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import SearchIcon from "@mui/icons-material/Search";
 import { alpha } from "@mui/material/styles";
 import FolderIcon from "@mui/icons-material/Folder";
-import EditIcon from "@mui/icons-material/Edit";
 import {
   InputBase,
   ListItem,
@@ -26,7 +24,6 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-// import Charts from "../Pages/Charts"
 import GroupIcon from "@mui/icons-material/Group";
 import { NavLink } from "react-router-dom";
 
@@ -233,17 +230,7 @@ export default function HomePage() {
               cursor: "pointer",
               textDecoration: "none",
             }}
-          >
-            {/* <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <EditIcon style={{ marginRight: "20px" }} />
-                  Edit Product
-                </ListItemIcon>
-                <ListItemText />
-              </ListItemButton>
-            </ListItem> */}
-          </NavLink>
+          ></NavLink>
           <NavLink
             to={"/allproduct"}
             style={{
@@ -314,7 +301,6 @@ export default function HomePage() {
           eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
           posuere sollicitudin aliquam ultrices sagittis orci a.
         </Typography>
-        {/* <Charts /> */}
       </Main>
     </Box>
   );

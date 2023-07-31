@@ -29,12 +29,15 @@ export default function Product() {
 
   const coustemer = async () => {
     try {
-      const response = await fetch("https://node-crud-only.onrender.com/coustemer/getalladmin", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "https://node-crud-only.onrender.com/coustemer/getalladmin",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await response.json();
       console.log("response:", data);
       setUser(data.adminData);
@@ -168,10 +171,10 @@ export default function Product() {
             {(rowsPerPage > 0
               ? user.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : user
-            ).map((user) => (
+            ).map((user, index) => (
               <TableRow key={user.name}>
                 <TableCell style={{ width: 160 }} align="left">
-                  {user._id}
+                  {index + 1}
                 </TableCell>
                 <TableCell style={{ width: 160 }} align="left">
                   {user.firstName}

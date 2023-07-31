@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import Shipfast from "./shipfast";
 import DeleteIcon from "@mui/icons-material/Delete";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
@@ -84,7 +85,9 @@ const AllProduct = () => {
 
   const DeleteButton = (id) => {
     axios
-      .delete(`https://node-crud-only.onrender.com/api/products/delete-product/${id}`)
+      .delete(
+        `https://node-crud-only.onrender.com/api/products/delete-product/${id}`
+      )
       .then((response) => {
         handleRefresh();
         // Handle success
@@ -118,6 +121,22 @@ const AllProduct = () => {
         >
           All Product
         </Typography>
+        <Stack direction="row" spacing={2} style={{ margin: "20px 0 0 9%" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "#2fbccc",
+              color: "white",
+              fontWeight: "bold",
+              textAlign: "center",
+              borderRadius: "15px",
+            }}
+            href="/"
+          >
+            <KeyboardArrowLeftIcon style={{ marginRight: "5px" }} />
+            Back to HomePage
+          </Button>
+        </Stack>
         <div style={{ display: "flex", marginTop: "10px" }}>
           <h2
             style={{

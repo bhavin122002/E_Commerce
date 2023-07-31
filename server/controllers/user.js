@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jsonwebtoken = require("jsonwebtoken");
+const { default: mongoose } = require("mongoose");
 
 module.exports.getAllUser = {
   controller: async (req, res) => {
@@ -31,7 +32,6 @@ module.exports.Registration = {
           role: req.body.role,
         });
         console.log("user created", user);
-        // save the new user
         user
           .save()
           // return success if the new user is added to the database successfully
@@ -53,7 +53,6 @@ module.exports.Registration = {
       .catch((error) => {
         res.status(500).send({
           message: "Password was not hashed successfully",
-          // error,
         });
         console.log("Password was not hashed successfully", error);
       });
@@ -86,6 +85,25 @@ module.exports.Login = {
       }
     } catch (error) {
       res.status(404).send({ error: error.message });
+    }
+  },
+};
+
+module.exports.LogOut = {
+  controller: async (req, res) => {
+    try {
+      /*  ----------------- logout user ----------------- */
+      await User.findByIdAndRemove({
+        _id: new mongoose.Types.ObjectId(req.params.id),
+      });
+      return res.send(
+        successResponse(StatusCodes.OK, false, MSG.DELETE_SUCCESS)
+      );
+    } catch (err) {
+      console.log(err);
+      res.send(
+        errorResponse(StatusCodes.INTERNAL_SERVER_ERROR, true, err.message)
+      );
     }
   },
 };

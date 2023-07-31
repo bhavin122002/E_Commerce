@@ -27,6 +27,7 @@ app.use("/api/products", require("./routes/products"));
 app.use("/login", require("./routes/user"));
 app.use("/coustemer", require("./routes/user"));
 app.use("/register", require("./routes/user"));
+app.use("/logout", require("./routes/user"));
 app.use("/category", require("./routes/category"));
 
 const start = async () => {

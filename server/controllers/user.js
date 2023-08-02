@@ -25,7 +25,6 @@ module.exports.Registration = {
     bcrypt
       .hash(req.body.password, 10)
       .then((hashedPassword) => {
-        console.log("helloo...", hashedPassword);
         const user = new User({
           firstName: req.body.firstName,
           lastName: req.body.lastName,
@@ -37,7 +36,7 @@ module.exports.Registration = {
         user
           .save()
           .then((result) => {
-            res.status(201).send({
+            res.status(200).send({
               message: "User Created Successfully",
               result,
             });
@@ -83,7 +82,7 @@ module.exports.Login = {
           .send({ message: "Users Successfully Login", result: TokenUser });
       }
     } catch (error) {
-      res.status(404).send({ error: error.message });
+      res.status(500).send({ error: error.message });
     }
   },
 };

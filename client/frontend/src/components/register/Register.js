@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 
-const Register = () => {
+export default function Register() {
   const theme = createTheme();
   const history = useNavigate();
   const [user, setUser] = React.useState({
@@ -30,6 +30,7 @@ const Register = () => {
       [name]: value,
     });
   };
+
   //register function
   const register = async () => {
     const { firstName, lastName, email, password } = user;
@@ -38,7 +39,6 @@ const Register = () => {
       try {
         const response = await fetch(
           "https://node-crud-only.onrender.com/register/registeradmin",
-          // user
           {
             method: "POST",
             headers: {
@@ -207,5 +207,4 @@ const Register = () => {
       </Grid>
     </ThemeProvider>
   );
-};
-export default Register;
+}

@@ -3,6 +3,7 @@ import Paper from "@mui/material/Paper";
 import {
   Box,
   Button,
+  CircularProgress,
   IconButton,
   Stack,
   Table,
@@ -151,9 +152,6 @@ export default function Product() {
           <TableHead>
             <TableRow>
               <TableCell size="medium" align="left">
-                No
-              </TableCell>
-              <TableCell size="medium" align="left">
                 FirstName
               </TableCell>
               <TableCell size="medium" align="left">
@@ -171,11 +169,8 @@ export default function Product() {
             {(rowsPerPage > 0
               ? user.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : user
-            ).map((user, index) => (
+            )?.map((user, index) => (
               <TableRow key={user.name}>
-                <TableCell style={{ width: 160 }} align="left">
-                  {index + 1}
-                </TableCell>
                 <TableCell style={{ width: 160 }} align="left">
                   {user.firstName}
                 </TableCell>
@@ -190,6 +185,17 @@ export default function Product() {
                 </TableCell>
               </TableRow>
             ))}
+
+            {/* <Box sx={{ display: "flex" }}>
+              <CircularProgress
+                style={{
+                  color: "#2fbccc",
+                  justifyContent: "center",
+                  fontSize: "40px",
+                }}
+              />
+            </Box> */}
+
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={6} />

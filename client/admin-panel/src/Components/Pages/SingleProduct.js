@@ -23,6 +23,7 @@ import axios from "axios";
 
 function SingleProduct() {
   const [data, setData] = useState("");
+  const [category, setCategory] = useState([]);
   const [users, setUser] = useState({
     productName: "",
     productImage: "",
@@ -120,8 +121,29 @@ function SingleProduct() {
       });
   };
 
+  // All data loaded
+  const coustemer = async () => {
+    try {
+      const response = await fetch(
+        "https://node-crud-only.onrender.com/category/getall-category",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      console.log("response:", data);
+      setCategory(data.result);
+    } catch (error) {
+      console.log("invalid input", error);
+    }
+  };
+
   useEffect(() => {
     setUser(propsData);
+    coustemer()
   }, [refresh]);
 
   return (
@@ -244,24 +266,13 @@ function SingleProduct() {
               <InputLabel id="demo-simple-select-helper-label">
                 Category
               </InputLabel>
-              <Select
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
-                label="Category"
-                name="category"
-                onChange={handleChangeVelue}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={"Rings"}>Rings</MenuItem>
-                <MenuItem value={"Drops"}>Drops</MenuItem>
-                <MenuItem value={"Earrings"}>Earrings</MenuItem>
-                <MenuItem value={"HoopEarrings"}>HoopEarrings</MenuItem>
-                <MenuItem value={"Bracelets_Bangles"}>
-                  Bracelets & Bangles
-                </MenuItem>
-              </Select>
+{/* {
+  category.map(()=>{
+
+  })
+} */}
+
+            
             </FormControl>
           </Box>
           <Box

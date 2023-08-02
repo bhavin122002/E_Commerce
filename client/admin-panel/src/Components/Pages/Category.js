@@ -21,7 +21,7 @@ import {
 import Modal from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useTheme } from "@emotion/react";
@@ -46,9 +46,6 @@ export default function Category() {
   const [category, setCategory] = useState({
     categoryName: "",
   });
-  console.log("Edit Category", updataData);
-  console.log(" Category ID", userid);
-  console.log(" Delete ID", deleteid);
 
   // Edit Models
   const [open, setOpen] = useState(false);
@@ -162,6 +159,7 @@ export default function Category() {
         console.log("first...", data);
         setData(data);
         handleRefresh();
+        setCategory({ categoryName: "" });
       })
       .catch((err) => {
         console.log(err);
@@ -190,7 +188,7 @@ export default function Category() {
   };
 
   //Single Category Delete
-  const DeleteButton = (id) => {
+  const DeleteButton = () => {
     axios
       .delete(
         `https://node-crud-only.onrender.com/category/delete-category/${deleteid}`
@@ -397,9 +395,6 @@ export default function Category() {
             <TableHead>
               <TableRow>
                 <TableCell size="medium" align="left">
-                  Id
-                </TableCell>
-                <TableCell size="medium" align="left">
                   CategoryName
                 </TableCell>
                 <TableCell size="medium" align="left">
@@ -416,9 +411,6 @@ export default function Category() {
                 : user
               )?.map((user, index) => (
                 <TableRow key={user.name}>
-                  <TableCell style={{ width: 160 }} align="left">
-                    {index + 1}
-                  </TableCell>
                   <TableCell style={{ width: 160 }} align="left">
                     {user.categoryName}
                   </TableCell>
@@ -499,21 +491,21 @@ export default function Category() {
 
                   <Stack spacing={2} direction="row">
                     <Button
-                      variant="contained"
-                      color="warning"
                       style={{
                         padding: "10px",
-                        width: "200px",
                         borderRadius: "15px",
                         fontWeight: "bold",
                       }}
                       onClick={() => {
+                        console.log("Click", user);
                         handleOpen(user._id);
+                        setEditcategory({ categoryName: user.categoryName });
                         setUserid(user._id);
                       }}
                     >
-                      <EditIcon style={{ marginRight: "5px" }} />
-                      Edit
+                      <EditCalendarIcon
+                        style={{ marginRight: "5px", color: "black" }}
+                      />
                     </Button>
 
                     <Modal
@@ -578,11 +570,8 @@ export default function Category() {
                       </Box>
                     </Modal>
                     <Button
-                      variant="contained"
-                      color="error"
                       style={{
                         padding: "10px",
-                        width: "200px",
                         borderRadius: "15px",
                         fontWeight: "bold",
                       }}
@@ -591,8 +580,9 @@ export default function Category() {
                         setDeleteId(user._id);
                       }}
                     >
-                      <DeleteIcon style={{ marginRight: "5px" }} />
-                      Remove
+                      <DeleteIcon
+                        style={{ marginRight: "5px", color: "red" }}
+                      />
                     </Button>
                   </Stack>
                 </TableRow>

@@ -11,11 +11,12 @@ import { Container } from "@mui/material";
 import Image from "../../Images/pic1.png";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const Login = ({ setLoginUser }) => {
+const Login = () => {
   const history = useNavigate();
   const [user, setUser] = useState({
-    name: "",
+    email: "",
     password: "",
   });
   const handleChange = (e) => {
@@ -47,19 +48,27 @@ const Login = ({ setLoginUser }) => {
           body: JSON.stringify(user),
         }
       )
-        .then((response) => response.json())
         .then((data) => {
-          if (data.token) {
+          return data.json();
+        })
+        .then((response) => {
+          console.log(response);
+          const token = response.result.Token;
+          const email = response.result.email;
+          console.log("tokent", response);
+          if (token && email) {
             // Save the token to localStorage
-            localStorage.setItem("token", data.token);
-            // onLogin(name);
+            localStorage.setItem("token", token);
+            localStorage.setItem("email", email);
+            onLogin(user);
             alert("Login Successfully");
-            history("/");
-          } else {
-            alert("Invalid credentials");
           }
         })
-        .catch((error) => console.error("Error:", error));
+        .catch((error) => {
+          console.log("error: " + error);
+        });
+      alert("Login Successfully");
+      history("/");
       console.log("response: " + response);
     } catch (error) {
       console.error(`error: ${error.message}`);

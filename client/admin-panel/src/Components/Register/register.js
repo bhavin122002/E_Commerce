@@ -39,7 +39,6 @@ export default function Register() {
       try {
         const response = await fetch(
           "https://node-crud-only.onrender.com/register/registeradmin",
-          // user
           {
             method: "POST",
             headers: {

@@ -30,9 +30,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import GroupIcon from "@mui/icons-material/Group";
-import { NavLink } from "react-router-dom";
-import axios from "axios";
-
+import { NavLink, useNavigate } from "react-router-dom";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -124,6 +122,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function HomePage() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const history = useNavigate();
 
   // Page auto refreshed
   const [refresh, setRefresh] = useState(false);
@@ -148,19 +147,19 @@ export default function HomePage() {
     setAnchorEl(event.currentTarget);
   };
 
-  const LogOut = (id) => {
-    axios
-      .delete(`https://node-crud-only.onrender.com/logout/logout-admin`)
-      .then((response) => {
-        handleRefresh();
-        // Handle success
-        console.log("Item deleted successfully");
-      })
-      .catch((error) => {
-        handleRefresh();
-        // Handle error
-        console.error("Error deleting item:", error);
-      });
+  const LogOut = () => {
+    try {
+      // Get the token and email to localStorage
+      localStorage.getItem("token");
+      localStorage.getItem("email");
+
+      // Remove the token and email to localStorage
+      localStorage.removeItem("token");
+      localStorage.removeItem("email");
+      history("/register");
+    } catch (error) {
+      console.log("invalid input", error.message);
+    }
   };
 
   const menuId = "primary-search-account-menu";

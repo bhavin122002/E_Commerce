@@ -30,6 +30,7 @@ function ResponsiveAppBar() {
   };
   const handleOpenUserMenu = () => {
     history("/register");
+    handleRefresh();
   };
 
   useEffect(() => {

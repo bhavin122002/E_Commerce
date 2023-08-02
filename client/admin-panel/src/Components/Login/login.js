@@ -18,9 +18,10 @@ import { Container } from "@mui/material";
 export default function Login() {
   const history = useNavigate();
   const [user, setUser] = useState({
-    name: "",
+    email: "",
     password: "",
   });
+  console.log("Login", user);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({
@@ -29,9 +30,9 @@ export default function Login() {
     });
   };
 
-  const login = async () => {
+  const login = async ({ onLogin }) => {
     try {
-      const response = await fetch(
+      await fetch(
         "https://node-crud-only.onrender.com/login/loginadmin",
         // user
         {
@@ -41,10 +42,26 @@ export default function Login() {
           },
           body: JSON.stringify(user),
         }
-      );
-      console.log("response: " + response);
-      alert("Login Successfully");
-      history("/");
+      )
+        .then((data) => {
+          return data.json();
+        })
+        .then((response) => {
+          console.log(response);
+          const token = response.result.Token;
+          const email = response.result.email;
+          console.log("tokent", response);
+          if (token && email) {
+            // Save the token and email to localStorage
+            localStorage.setItem("token", token);
+            localStorage.setItem("email", email);
+            onLogin(user);
+            alert("Login Successfully");
+          }
+        })
+        .catch((error) => {
+          console.log("error: " + error);
+        });
     } catch (error) {
       console.error(`error: ${error.message}`);
     }

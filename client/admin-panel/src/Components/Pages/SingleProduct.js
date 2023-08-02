@@ -4,15 +4,19 @@ import {
   Button,
   FormControl,
   Grid,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
+  Snackbar,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
+import CloseIcon from "@mui/icons-material/Close";
+import ClearIcon from "@mui/icons-material/Clear";
 
 import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -30,9 +34,6 @@ function SingleProduct() {
     productDescription: "",
   });
   const [image, setImage] = useState("");
-  console.log("successfully created product", data);
-  console.log("successfully created Image", image);
-  console.log("successfully product", users);
   const location = useLocation();
   const propsData = location.state;
 
@@ -47,6 +48,33 @@ function SingleProduct() {
       [name]: value,
     });
   };
+
+  // Toaster
+  const [opentost, setOpenTost] = useState(false);
+
+  const handleClick = () => {
+    setOpenTost(true);
+  };
+
+  const handleCloseToaster = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenTost(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleCloseToaster}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -98,7 +126,6 @@ function SingleProduct() {
 
   return (
     <>
-     
       <Box
         style={{
           width: "90%",
@@ -128,7 +155,6 @@ function SingleProduct() {
           >
             Product
           </Typography>
-
           <Box
             component="form"
             sx={{
@@ -261,7 +287,6 @@ function SingleProduct() {
               type="file"
               onChange={(e) => {
                 setImage(e.target.files[0]);
-                console.log("Image", e.target.files[0]);
               }}
               variant="outlined"
               style={{ width: "50%" }}
@@ -281,10 +306,35 @@ function SingleProduct() {
                 borderRadius: "15px",
                 fontWeight: "bold",
               }}
-              onClick={addData}
+              onClick={() => {
+                addData();
+                handleClick();
+              }}
             >
               <FileDownloadDoneIcon style={{ marginRight: "5px" }} />
               Save
+            </Button>
+            <Snackbar
+              open={opentost}
+              autoHideDuration={2000}
+              onClose={handleCloseToaster}
+              message="Product Successfully Added"
+              action={action}
+            />
+          </NavLink>
+          <NavLink to={"/allproduct"}>
+            <Button
+              variant="contained"
+              color="error"
+              style={{
+                padding: "10px",
+                width: "200px",
+                borderRadius: "15px",
+                fontWeight: "bold",
+              }}
+            >
+              <ClearIcon style={{ marginRight: "5px" }} />
+              Cancel
             </Button>
           </NavLink>
         </Stack>

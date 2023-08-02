@@ -18,6 +18,6 @@ router.post("/loginadmin", Login.controller);
 router.post("/registeradmin", Registration.controller);
 
 /* --------------------------------------------------  Single Logout  -------------------------------------------------- */
-router.delete("/logoutadmin/:id", LogOut.controller);
+router.delete("/logout-admin/:id", LogOut.controller);
 
 module.exports = router;

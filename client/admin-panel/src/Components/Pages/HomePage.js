@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useCallback, useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -16,16 +16,22 @@ import PersonIcon from "@mui/icons-material/Person";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import SearchIcon from "@mui/icons-material/Search";
 import { alpha } from "@mui/material/styles";
+import LogoutIcon from "@mui/icons-material/Logout";
 import FolderIcon from "@mui/icons-material/Folder";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 import {
+  Button,
   InputBase,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import GroupIcon from "@mui/icons-material/Group";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 const drawerWidth = 240;
 
@@ -119,6 +125,111 @@ export default function HomePage() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
 
+  // Page auto refreshed
+  const [refresh, setRefresh] = useState(false);
+  const handleRefresh = useCallback(() => setRefresh(!refresh), [refresh]);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const LogOut = (id) => {
+    axios
+      .delete(`https://node-crud-only.onrender.com/logout/logout-admin`)
+      .then((response) => {
+        handleRefresh();
+        // Handle success
+        console.log("Item deleted successfully");
+      })
+      .catch((error) => {
+        handleRefresh();
+        // Handle error
+        console.error("Error deleting item:", error);
+      });
+  };
+
+  const menuId = "primary-search-account-menu";
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <Button
+        variant="contained"
+        style={{
+          backgroundColor: "lightgray",
+          color: "black",
+          fontWeight: "800",
+        }}
+        onClick={() => {
+          LogOut();
+          console.log("Logged out");
+        }}
+      >
+        <LogoutIcon style={{ marginRight: "5px" }} />
+        LogOut
+      </Button>
+    </Menu>
+  );
+
+  const mobileMenuId = "primary-search-account-menu-mobile";
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "bottom",
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -141,25 +252,53 @@ export default function HomePage() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Dashboard
-          </Typography>
-          <Box>
-            <Search
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            <div style={{ width: "100%", marginTop: "15px" }}>
+              <Typography variant="h6" noWrap component="div">
+                Dashboard
+              </Typography>
+            </div>
+            <div
               style={{
-                marginLeft: "70%",
+                display: "flex",
                 width: "100%",
+                alignItems: "center",
+                justifyContent: "space-between",
               }}
             >
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search..."
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
-          </Box>
+              <div style={{ width: "70%" }}>
+                <Search>
+                  <SearchIconWrapper>
+                    <SearchIcon />
+                  </SearchIconWrapper>
+                  <StyledInputBase
+                    placeholder="Search..."
+                    inputProps={{ "aria-label": "search" }}
+                  />
+                </Search>
+              </div>
+              <div sx={{ width: "30%" }}>
+                <IconButton
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle sx={{ width: 40, height: 40 }} />
+                </IconButton>
+                {renderMobileMenu}
+                {renderMenu}
+              </div>
+            </div>
+          </div>
         </Toolbar>
       </AppBar>
 

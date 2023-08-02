@@ -123,11 +123,10 @@ module.exports.UpdateCategory = {
 module.exports.DeleteCategory = {
   controller: async (req, res) => {
     /*  ----------------- find category by id   ----------------- */
-    let category = await Category.findByIdAndRemove(
-      { _id: new mongoose.Types.ObjectId(req.params.id) }
-      // createdBy: req.user._id,
-    );
-
+    let category = await Category.findByIdAndRemove({
+      _id: new mongoose.Types.ObjectId(req.params.id),
+    });
+    console.log("delete id", req.params.id);
     /*  ----------------- check category exist   ----------------- */
     if (!category) {
       return res.send(

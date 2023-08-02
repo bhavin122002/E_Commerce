@@ -134,7 +134,7 @@ const AllProduct = () => {
             href="/"
           >
             <KeyboardArrowLeftIcon style={{ marginRight: "5px" }} />
-            Back to HomePage
+            Back
           </Button>
         </Stack>
         <div style={{ display: "flex", marginTop: "10px" }}>

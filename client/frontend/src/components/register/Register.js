@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -6,24 +6,24 @@ import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import Image from "../../Images/pic2.png";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { NavLink } from "react-router-dom";
-import Image from "../../Images/pic1.png";
 import { useNavigate } from "react-router-dom";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 
 const Register = () => {
   const theme = createTheme();
   const history = useNavigate();
-  const [user, setUser] = useState({
-    name: "",
+  const [user, setUser] = React.useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
-  const handleChangeValue = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({
       ...user, //spread operator
@@ -32,9 +32,9 @@ const Register = () => {
   };
   //register function
   const register = async () => {
-    const { name, email, password } = user;
+    const { firstName, lastName, email, password } = user;
     console.log("registration Successfully registered", user);
-    if (name && email && password) {
+    if (firstName && lastName && email && password) {
       try {
         const response = await fetch(
           "https://node-crud-only.onrender.com/register/registeradmin",
@@ -53,6 +53,17 @@ const Register = () => {
         console.log("invalid input", error);
       }
     }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
+      email: data.get("email"),
+      password: data.get("password"),
+    });
   };
 
   return (
@@ -101,6 +112,7 @@ const Register = () => {
               flexDirection: "column",
               alignItems: "center",
             }}
+            onChange={handleChange}
           >
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
@@ -111,21 +123,33 @@ const Register = () => {
             <Box
               component="form"
               noValidate
-              onSubmit={handleChangeValue}
+              onSubmit={handleSubmit}
               sx={{ mt: 3 }}
             >
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={6}>
                   <TextField
                     autoComplete="given-name"
-                    name="name"
-                    value={user.name}
-                    onChange={handleChangeValue}
+                    name="firstName"
+                    value={user.firstName}
+                    onChange={handleChange}
                     required
                     fullWidth
-                    id="name"
-                    label="Name"
+                    id="firstName"
+                    label="First Name"
                     autoFocus
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="lastName"
+                    value={user.lastName}
+                    onChange={handleChange}
+                    label="Last Name"
+                    name="lastName"
+                    autoComplete="family-name"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -134,7 +158,7 @@ const Register = () => {
                     fullWidth
                     id="email"
                     value={user.email}
-                    onChange={handleChangeValue}
+                    onChange={handleChange}
                     label="Email Address"
                     name="email"
                     autoComplete="email"
@@ -145,33 +169,31 @@ const Register = () => {
                     required
                     fullWidth
                     name="password"
-                    label="Password"
                     value={user.password}
-                    onChange={handleChangeValue}
+                    onChange={handleChange}
+                    label="Password"
                     type="password"
                     id="password"
                     autoComplete="new-password"
                   />
                 </Grid>
               </Grid>
-              <NavLink to="/login">
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                  onClick={register}
-                  style={{
-                    backgroundColor: "#2fbccc",
-                    color: "white",
-                    fontWeight: "bold",
-                    borderRadius: "10px",
-                  }}
-                >
-                  <LoginRoundedIcon style={{ marginRight: "5px" }} />
-                  Sign Up
-                </Button>
-              </NavLink>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                onClick={register}
+                sx={{ mt: 3, mb: 2 }}
+                style={{
+                  backgroundColor: "#54e4e6",
+                  color: "white",
+                  fontWeight: "bold",
+                  borderRadius: "10px",
+                }}
+              >
+                <LoginRoundedIcon style={{ marginRight: "5px" }} />
+                Sign Up
+              </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link href="/login" variant="body2">

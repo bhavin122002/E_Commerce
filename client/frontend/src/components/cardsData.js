@@ -9,7 +9,7 @@ import {
   CardActionArea,
   Typography,
 } from "@mui/material";
-import CardMedia from '@mui/material/CardMedia';
+import CardMedia from "@mui/material/CardMedia";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -155,9 +155,6 @@ const CardData = () => {
         >
           {data ? (
             data?.map((element, id) => {
-              {
-                console.log("Image", element.productImage);
-              }
               return (
                 <Grid
                   key={id}
@@ -177,7 +174,7 @@ const CardData = () => {
                         <CardMedia
                           sx={{ height: 250, width: 370, padding: "5px" }}
                           src={element.productImage}
-                          title="green iguana"
+                          title="Img Not Found"
                           component="img"
                           onClick={() => cards(element.id)}
                         />

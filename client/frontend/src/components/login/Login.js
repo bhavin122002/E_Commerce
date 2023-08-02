@@ -34,7 +34,7 @@ const Login = ({ setLoginUser }) => {
     history("/register");
   };
 
-  const login = async() => {
+  const login = async ({ onLogin }) => {
     try {
       const response = await fetch(
         "https://node-crud-only.onrender.com/login/loginadmin",
@@ -46,10 +46,21 @@ const Login = ({ setLoginUser }) => {
           },
           body: JSON.stringify(user),
         }
-      );
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.token) {
+            // Save the token to localStorage
+            localStorage.setItem("token", data.token);
+            // onLogin(name);
+            alert("Login Successfully");
+            history("/");
+          } else {
+            alert("Invalid credentials");
+          }
+        })
+        .catch((error) => console.error("Error:", error));
       console.log("response: " + response);
-      alert("Login Successfully logged");
-      history("/");
     } catch (error) {
       console.error(`error: ${error.message}`);
     }

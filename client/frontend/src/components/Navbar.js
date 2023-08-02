@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -25,11 +25,16 @@ function ResponsiveAppBar() {
   const getValueNavbar = (e) => {
     console.log("first", e);
     history("/product/" + e);
+    handleRefresh();
     setValue(e.target.getAttribute("href").split("/")[1]);
   };
   const handleOpenUserMenu = () => {
     history("/register");
   };
+
+  useEffect(() => {
+    handleRefresh();
+  }, [refresh]);
 
   return (
     <AppBar position="static">

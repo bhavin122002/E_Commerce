@@ -15,6 +15,8 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  Alert,
+  Snackbar,
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
@@ -27,6 +29,7 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
+import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 
 export default function Category() {
@@ -53,13 +56,40 @@ export default function Category() {
   const handleClose = () => setOpen(false);
 
   // Delete Models
-  const [opens, setOpens] = useState(false);
-  const handleOpens = () => setOpens(true);
-  const handleCloses = () => setOpens(false);
+  const [DeleteOpne, setDeleteOpne] = useState(false);
+  const handleDeleteopne = () => setDeleteOpne(true);
+  const handleDeleteCloses = () => setDeleteOpne(false);
 
   // Page auto refreshed
   const [refresh, setRefresh] = useState(false);
   const handleRefresh = useCallback(() => setRefresh(!refresh), [refresh]);
+
+  // Toaster
+  const [opentost, setOpenTost] = useState(false);
+
+  const handleClick = () => {
+    setOpenTost(true);
+  };
+
+  const handleCloseToaster = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenTost(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleCloseToaster}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   // All data loaded
   const coustemer = async () => {
@@ -119,7 +149,7 @@ export default function Category() {
 
   const handleDeleteCategorySubmit = (event) => {
     event.preventDefault();
-    handleOpens();
+    handleDeleteopne();
   };
 
   //Single Category Add
@@ -326,11 +356,21 @@ export default function Category() {
               borderRadius: "15px",
               fontWeight: "bold",
             }}
-            onClick={addCategory}
+            onClick={() => {
+              addCategory();
+              handleClick();
+            }}
           >
             <FileDownloadDoneIcon style={{ marginRight: "5px" }} />
             Save
           </Button>
+          <Snackbar
+            open={opentost}
+            autoHideDuration={2000}
+            onClose={handleCloseToaster}
+            message="Category Successfully Added"
+            action={action}
+          />
         </Stack>
         <TableContainer
           item
@@ -394,6 +434,16 @@ export default function Category() {
                     onSubmit={handleEditCategorySubmit}
                   >
                     <Box sx={style}>
+                      <CloseIcon
+                        style={{
+                          justifyContent: "end",
+                          padding: "0px 97%",
+                          margin: "0",
+                        }}
+                        onClick={() => {
+                          handleClose();
+                        }}
+                      />
                       <Typography
                         id="modal-modal-title"
                         variant="h6"
@@ -431,11 +481,19 @@ export default function Category() {
                         onClick={() => {
                           updateCategory();
                           handleClose();
+                          handleClick();
                         }}
                       >
                         <FileDownloadDoneIcon style={{ marginRight: "5px" }} />
                         Save
                       </Button>
+                      <Snackbar
+                        open={opentost}
+                        autoHideDuration={2000}
+                        onClose={handleCloseToaster}
+                        message="Category Successfully Edit"
+                        action={action}
+                      />
                     </Box>
                   </Modal>
 
@@ -459,13 +517,23 @@ export default function Category() {
                     </Button>
 
                     <Modal
-                      opens={opens}
-                      onCloses={handleCloses}
+                      open={DeleteOpne}
+                      onClose={handleClose}
                       aria-labelledby="modal-modal-title"
                       aria-describedby="modal-modal-description"
                       onSubmit={handleDeleteCategorySubmit}
                     >
                       <Box sx={style}>
+                        <CloseIcon
+                          style={{
+                            justifyContent: "end",
+                            padding: "0px 97%",
+                            margin: "0",
+                          }}
+                          onClick={() => {
+                            handleDeleteCloses();
+                          }}
+                        />
                         <Typography
                           id="modal-modal-title"
                           variant="h6"
@@ -491,18 +559,24 @@ export default function Category() {
                           sx={{ mt: 2 }}
                           onClick={() => {
                             DeleteButton(user._id);
-                            console.log("User deleted", user._id);
-                            handleCloses();
+                            handleDeleteCloses();
+                            handleClick();
                           }}
                         >
                           <FileDownloadDoneIcon
                             style={{ marginRight: "5px" }}
                           />
-                          Confirmed
+                          Confirm
                         </Button>
+                        <Snackbar
+                          open={opentost}
+                          autoHideDuration={2000}
+                          onClose={handleCloseToaster}
+                          message="Category Successfully Deleted"
+                          action={action}
+                        />
                       </Box>
                     </Modal>
-
                     <Button
                       variant="contained"
                       color="error"
@@ -513,7 +587,7 @@ export default function Category() {
                         fontWeight: "bold",
                       }}
                       onClick={() => {
-                        handleOpens(user._id);
+                        handleDeleteopne(user._id);
                         setDeleteId(user._id);
                       }}
                     >

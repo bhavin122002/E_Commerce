@@ -4,9 +4,11 @@ import {
   Button,
   FormControl,
   Grid,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
+  Snackbar,
   Stack,
   TextField,
   Typography,
@@ -15,7 +17,8 @@ import Paper from "@mui/material/Paper";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import ClearIcon from '@mui/icons-material/Clear';
+import ClearIcon from "@mui/icons-material/Clear";
+import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 
 function Product() {
@@ -31,6 +34,33 @@ function Product() {
     category: "",
     productDescription: "",
   });
+
+  // Toaster
+  const [opentost, setOpenTost] = useState(false);
+
+  const handleClick = () => {
+    setOpenTost(true);
+  };
+
+  const handleCloseToaster = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenTost(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleCloseToaster}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   const location = useLocation();
   let { id } = useParams();
@@ -298,11 +328,21 @@ function Product() {
                 borderRadius: "15px",
                 fontWeight: "bold",
               }}
-              onClick={updateData}
+              onClick={() => {
+                updateData();
+                handleClick();
+              }}
             >
               <FileDownloadDoneIcon style={{ marginRight: "5px" }} />
               Save
             </Button>
+            <Snackbar
+              open={opentost}
+              autoHideDuration={2000}
+              onClose={handleCloseToaster}
+              message="Product Successfully Added"
+              action={action}
+            />
           </NavLink>
           <NavLink to={"/allproduct"}>
             <Button

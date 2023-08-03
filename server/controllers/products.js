@@ -31,59 +31,6 @@ module.exports.getAllProduct = {
         resultPerPage: Number(req.query.resultPerPage),
         filterTaskCount,
       });
-      // /*  -----------------  getall product  ----------------- */
-      // const {
-      //   page,
-      //   productName,
-      //   pagePerRecords,
-      //   sortFieldKey,
-      //   sortKey,
-      //   category,
-      // } = req.query;
-      // let query = {};
-      // let filter = {};
-
-      // //Searching for products
-      // if (productName) {
-      //   query.$or = [
-      //     { productName: { $regex: "^" + productName, $options: "i" } },
-      //     { productMetal: { $regex: "^" + productName, $options: "i" } },
-      //     { category: { $regex: "^" + productName, $options: "i" } },
-      //   ];
-      // }
-
-      // //Sorting
-      // let sort_query = {};
-      // if (sortFieldKey && sortKey) {
-      //   sort_query[sortFieldKey] = sortKey;
-      // }
-
-      // //pagination
-      // let pageNumber = 1;
-      // if (page) {
-      //   pageNumber = Number(page);
-      // }
-      // let skip = parseInt(pageNumber * pagePerRecords) - pagePerRecords;
-
-      // if (category) {
-      //   filter.category = category;
-      // }
-
-      // let totleRecode = await Products.find(filter, query).countDocuments();
-      // let myData = await Products.find(filter, query)
-      //   .limit(pagePerRecords)
-      //   .skip(skip)
-      //   .sort(sort_query);
-      // res.send(
-      //   successResponse(
-      //     StatusCodes.OK,
-      //     false,
-      //     MSG.FOUND_SUCCESS,
-      //     myData,
-      //     myData.length,
-      //     totleRecode
-      //   )
-      // );
     } catch (err) {
       console.log(err);
       res.send(

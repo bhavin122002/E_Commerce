@@ -27,14 +27,15 @@ import axios from "axios";
 const CardData = () => {
   const [data, setData] = useState("");
   const history = useNavigate();
-  let { categoryId } = useParams();
+  let { category } = useParams();
+  console.log("category", category);
   const [page, setPage] = useState(1);
   const [keyword, setkayword] = useState("");
-  const [pagePerRecords, setpagePerRecords] = useState("");
+  const [pageSize, setpageSize] = useState("");
   const [sortKey] = useState("");
   const [filter, setFilter] = useState("");
-  const [sortFieldKey, setSortField] = useState({
-    sortFieldKey: "",
+  const [sortorder, setSortField] = useState({
+    sortorder: "",
     sortKey: "",
   });
 
@@ -45,38 +46,51 @@ const CardData = () => {
     console.log("firstValue", value);
     const answer_array = value.split(",");
     setFilter(value);
-    setSortField((sortFieldKey) => ({
-      ...sortFieldKey,
-      sortFieldKey: answer_array[0],
+    setSortField((sortorder) => ({
+      ...sortorder,
+      sortorder: answer_array[0],
       sortKey: answer_array[1],
     }));
   };
 
-  console.log("first filter", sortFieldKey);
+  console.log("first filter", sortorder);
   const cards = () => {
     history("/product");
   };
-  console.log("page", page);
 
   const handleChange = (event, value) => {
     setPage(value);
   };
-  const handleChangepagePerRecords = () => {
-    setpagePerRecords(12);
+  const handleChangepageSize = () => {
+    setpageSize(12);
   };
 
   // Searching Products
   const searchSubmitHendler = (e) => {
     let searchValue = e.target.value;
-    let value = searchValue.split(" ").join("");
-    setkayword(value);
+    setkayword(searchValue);
     console.log("searchValue", e.target.value);
   };
 
   const fetchData = async () => {
+    let addQuery = "";
+    if (keyword) {
+      addQuery = addQuery + `&keyword=${keyword}`;
+    }
+    if (category) {
+      addQuery = addQuery + `&category=${category}`;
+    }
+
+    if (sortorder.sortorder && sortorder.sortKey) {
+      addQuery =
+        addQuery +
+        `&sortkey=${sortorder.sortKey}&sortorder=${sortorder.sortorder}`;
+    }
+
+    console.log("addQuery: " + addQuery);
     await axios
       .get(
-        `https://node-crud-only.onrender.com/api/products/getall-product?category=${categoryId}&page=${page}&pagePerRecords=${pagePerRecords}&sortFieldKey=${sortFieldKey.sortFieldKey}&sortKey=${sortFieldKey.sortKey}&search=${keyword}`
+        `https://node-crud-only.onrender.com/api/products/getall-product?page=${page}&resultPerPage=${pageSize}${addQuery}`
       )
       .then((data) => {
         console.log("first...", data);
@@ -89,8 +103,8 @@ const CardData = () => {
 
   useEffect(() => {
     fetchData();
-    handleChangepagePerRecords();
-  }, [page, pagePerRecords, sortFieldKey, sortKey, keyword]);
+    handleChangepageSize();
+  }, [page, pageSize, sortorder, sortKey, keyword]);
 
   return (
     <>
@@ -117,12 +131,12 @@ const CardData = () => {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value="productPrice,1">PRICE - LOW TO HIGH</MenuItem>
-              <MenuItem value="productPrice,-1">PRICE - HIGH TO LOW </MenuItem>
-              <MenuItem value="createdAt,1">DATE - NEW TO OLD </MenuItem>
-              <MenuItem value="createdAt,-1">DATE - OLD TO NEW </MenuItem>
-              <MenuItem value="productName,1">NAME - A TO Z</MenuItem>
-              <MenuItem value="productName,-1">NAME - Z TO A </MenuItem>
+              <MenuItem value="1,productPrice">PRICE - LOW TO HIGH</MenuItem>
+              <MenuItem value="-1,productPrice">PRICE - HIGH TO LOW </MenuItem>
+              <MenuItem value="1,createdAt">DATE - NEW TO OLD </MenuItem>
+              <MenuItem value="-1,createdAt">DATE - OLD TO NEW </MenuItem>
+              <MenuItem value="1,productName">NAME - A TO Z</MenuItem>
+              <MenuItem value="-1,productName">NAME - Z TO A </MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -132,7 +146,6 @@ const CardData = () => {
               <form className="searchBox" onChange={searchSubmitHendler}>
                 <TextField
                   type="text"
-                  // value="productName"
                   label="🔍Search a Product"
                   style={{ marginLeft: "30%", width: 600 }}
                 />

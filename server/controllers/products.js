@@ -3,65 +3,87 @@ const { MSG } = require("../helper/constant");
 const { errorResponse, successResponse } = require("../helper/general");
 const { StatusCodes } = require("http-status-codes");
 const { default: mongoose } = require("mongoose");
+const ApiFeatures = require("../utils/task");
 
 /* ------------------  getall product  ------------------ */
 
 module.exports.getAllProduct = {
   controller: async (req, res) => {
     try {
-      /*  -----------------  getall product  ----------------- */
-      const {
-        page,
-        productName,
-        pagePerRecords,
-        sortFieldKey,
-        sortKey,
-        category,
-      } = req.query;
-      let query = {};
-      let filter = {};
+      const taskCount = await Products.find().countDocuments();
+      const apiFeature = new ApiFeatures(Products.find(), req.query)
+        .search()
+        .filter()
+        .sort();
 
-      //Searching for products
-      if (productName) {
-        query.$or = [
-          { productName: { $regex: "^" + productName, $options: "i" } },
-          { productMetal: { $regex: "^" + productName, $options: "i" } },
-          { category: { $regex: "^" + productName, $options: "i" } },
-        ];
-      }
+      let task = await apiFeature.query;
 
-      //Sorting
-      let sort_query = {};
-      if (sortFieldKey && sortKey) {
-        sort_query[sortFieldKey] = sortKey;
-      }
+      let filterTaskCount = task.length;
 
-      //pagination
-      let pageNumber = 1;
-      if (page) {
-        pageNumber = Number(page);
-      }
-      let skip = parseInt(pageNumber * pagePerRecords) - pagePerRecords;
+      apiFeature.pagination();
 
-      if (category) {
-        filter.category = category;
-      }
+      task = await apiFeature.query.clone();
 
-      let totleRecode = await Products.find(filter, query).countDocuments();
-      let myData = await Products.find(filter, query)
-        .limit(pagePerRecords)
-        .skip(skip)
-        .sort(sort_query);
-      res.send(
-        successResponse(
-          StatusCodes.OK,
-          false,
-          MSG.FOUND_SUCCESS,
-          myData,
-          myData.length,
-          totleRecode
-        )
-      );
+      return res.json({
+        success: true,
+        result: task,
+        taskCount,
+        resultPerPage: Number(req.query.resultPerPage),
+        filterTaskCount,
+      });
+      // /*  -----------------  getall product  ----------------- */
+      // const {
+      //   page,
+      //   productName,
+      //   pagePerRecords,
+      //   sortFieldKey,
+      //   sortKey,
+      //   category,
+      // } = req.query;
+      // let query = {};
+      // let filter = {};
+
+      // //Searching for products
+      // if (productName) {
+      //   query.$or = [
+      //     { productName: { $regex: "^" + productName, $options: "i" } },
+      //     { productMetal: { $regex: "^" + productName, $options: "i" } },
+      //     { category: { $regex: "^" + productName, $options: "i" } },
+      //   ];
+      // }
+
+      // //Sorting
+      // let sort_query = {};
+      // if (sortFieldKey && sortKey) {
+      //   sort_query[sortFieldKey] = sortKey;
+      // }
+
+      // //pagination
+      // let pageNumber = 1;
+      // if (page) {
+      //   pageNumber = Number(page);
+      // }
+      // let skip = parseInt(pageNumber * pagePerRecords) - pagePerRecords;
+
+      // if (category) {
+      //   filter.category = category;
+      // }
+
+      // let totleRecode = await Products.find(filter, query).countDocuments();
+      // let myData = await Products.find(filter, query)
+      //   .limit(pagePerRecords)
+      //   .skip(skip)
+      //   .sort(sort_query);
+      // res.send(
+      //   successResponse(
+      //     StatusCodes.OK,
+      //     false,
+      //     MSG.FOUND_SUCCESS,
+      //     myData,
+      //     myData.length,
+      //     totleRecode
+      //   )
+      // );
     } catch (err) {
       console.log(err);
       res.send(

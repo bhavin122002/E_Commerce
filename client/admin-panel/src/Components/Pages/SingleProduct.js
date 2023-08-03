@@ -135,7 +135,7 @@ function SingleProduct() {
       );
       const data = await response.json();
       console.log("response:", data);
-      setCategory(data.result);
+      setCategory(data?.result);
     } catch (error) {
       console.log("invalid input", error);
     }
@@ -143,7 +143,7 @@ function SingleProduct() {
 
   useEffect(() => {
     setUser(propsData);
-    coustemer()
+    coustemer();
   }, [refresh]);
 
   return (
@@ -266,13 +266,24 @@ function SingleProduct() {
               <InputLabel id="demo-simple-select-helper-label">
                 Category
               </InputLabel>
-{/* {
-  category.map(()=>{
-
-  })
-} */}
-
-            
+              <Select
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
+                label="Category"
+                name="categoryName"
+                onChange={handleChangeVelue}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {category?.map((element) => {
+                  return (
+                    <MenuItem value={element.categoryName}>
+                      {element.categoryName}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
             </FormControl>
           </Box>
           <Box

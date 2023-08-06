@@ -24,11 +24,10 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
 
-const CardData = () => {
+const CardData = ({ addtocart, setAddtocart }) => {
   const [data, setData] = useState("");
   const history = useNavigate();
   let { category } = useParams();
-  console.log("category", category);
   const [page, setPage] = useState(1);
   const [keyword, setkayword] = useState("");
   const [pageSize, setpageSize] = useState("");
@@ -40,6 +39,7 @@ const CardData = () => {
   });
 
   console.log("first", data);
+  console.log("first.............", addtocart);
 
   const handleChangePrice = (event) => {
     const value = event.target.value;
@@ -53,9 +53,9 @@ const CardData = () => {
     }));
   };
 
-  console.log("first filter", sortorder);
-  const cards = () => {
-    history("/product");
+  const AddtoCart = (data) => {
+    console.log("first add to cart", data);
+    setAddtocart([...addtocart,data]);
   };
 
   const handleChange = (event, value) => {
@@ -87,13 +87,13 @@ const CardData = () => {
         `&sortkey=${sortorder.sortKey}&sortorder=${sortorder.sortorder}`;
     }
 
-    console.log("addQuery: " + addQuery);
+    // console.log("addQuery: " + addQuery);
     await axios
       .get(
         `https://node-crud-only.onrender.com/api/products/getall-product?page=${page}&resultPerPage=${pageSize}${addQuery}`
       )
       .then((data) => {
-        console.log("first...", data);
+        // console.log("first...", data);
         setData(data?.data?.result);
       })
       .catch((err) => {
@@ -102,9 +102,12 @@ const CardData = () => {
   };
 
   useEffect(() => {
-    fetchData();
     handleChangepageSize();
   }, [page, pageSize, sortorder, sortKey, keyword]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -189,7 +192,6 @@ const CardData = () => {
                           src={element.productImage}
                           title="Img Not Found"
                           component="img"
-                          onClick={() => cards(element.id)}
                         />
                       </CardActionArea>
                     </Link>
@@ -250,7 +252,9 @@ const CardData = () => {
                               letterSpacing: ".15px",
                               color: "white",
                             }}
-                            onClick={() => cards(element.id)}
+                            onClick={() => {
+                              AddtoCart(element);
+                            }}
                           >
                             <LocalMallIcon
                               style={{ margin: "8px", color: "white" }}

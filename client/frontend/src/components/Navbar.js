@@ -11,11 +11,11 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Badge from "@mui/material/Badge";
 // import logo from "../Images/logo1.png";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({ addtocart }) {
   const [value, setValue] = useState();
-
+  console.log("first addtocart", addtocart);
   // Page auto refreshed
   const [refresh, setRefresh] = useState(false);
   const handleRefresh = useCallback(() => setRefresh(!refresh), [refresh]);
@@ -26,46 +26,15 @@ function ResponsiveAppBar() {
     console.log("first", e);
     history("/product/" + e);
     setValue(e.target.getAttribute("href").split("/")[1]);
-    handleRefresh();
-  };
-  const handleOpenUserMenu = () => {
-    history("/register");
-    handleRefresh();
   };
 
-  // const models = () => {
-  //   return (
-  //     <>
-  //       <div
-  //         className="card_details d-flex justify-content-center align-items-center"
-  //         style={{ width: "24rem", padding: 10, position: "relative" }}
-  //       >
-  //         <i
-  //           className="fas fa-close smallclose"
-  //           style={{
-  //             position: "absolute",
-  //             top: 2,
-  //             right: 20,
-  //             fontSize: 23,
-  //             cursor: "pointer",
-  //           }}
-  //           // onClick={handleClose}
-  //         ></i>
-  //         <p style={{ fontSize: 22 }}>Your Card Is Empty</p>
-  //         <img
-  //           src="./cart.gif"
-  //           alt="//"
-  //           className="emptycart_img"
-  //           style={{ width: "5rem", padding: 10 }}
-  //         />
-  //       </div>
-  //     </>
-  //   );
-  // };
+  const handleOpenUserMenu = () => {
+    history("/register");
+  };
 
   useEffect(() => {
     handleRefresh();
-  }, [refresh]);
+  }, []);
 
   return (
     <AppBar position="static">
@@ -199,28 +168,28 @@ function ResponsiveAppBar() {
                 />
               </IconButton>
             </Tooltip>
-            <Tooltip
-              title="Cart Items"
-              // onClick={() => {
-              //   models();
-              // }}
-            >
-              <IconButton sx={{ p: 0 }}>
-                <Badge
-                  badgeContent={1}
-                  color="error"
-                  style={{ margin: "15px" }}
-                >
-                  <ShoppingCartIcon
-                    style={{
-                      color: "white",
-                      height: "35px",
-                      width: "35px",
-                    }}
-                  />
-                </Badge>
-              </IconButton>
-            </Tooltip>
+            <Link to={"/cart"}>
+              <Tooltip title="Cart Items">
+                <IconButton sx={{ p: 0 }}>
+                  <Badge
+                    badgeContent={addtocart?.length}
+                    color="error"
+                    style={{ margin: "15px" }}
+                  >
+                    <ShoppingCartIcon
+                      style={{
+                        color: "white",
+                        height: "35px",
+                        width: "35px",
+                      }}
+                      onClick={() => {
+                        console.log("Cart Items");
+                      }}
+                    />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+            </Link>
           </Box>
         </Toolbar>
       </Container>

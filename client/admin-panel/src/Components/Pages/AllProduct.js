@@ -33,12 +33,12 @@ const AllProduct = () => {
 
   const [data, setData] = useState("");
   const [page, setPage] = useState(1);
-  const [pagePerRecords, setpagePerRecords] = useState("");
+  const [pageSize, setpageSize] = useState("");
   const [keyword, setkayword] = useState("");
   const [sortKey] = useState("");
   const [filter, setFilter] = useState("");
-  const [sortFieldKey, setSortField] = useState({
-    sortFieldKey: "",
+  const [sortorder, setSortField] = useState({
+    sortorder: "",
     sortKey: "",
   });
 
@@ -47,9 +47,9 @@ const AllProduct = () => {
     console.log("firstValue", value);
     const answer_array = value.split(",");
     setFilter(value);
-    setSortField((sortFieldKey) => ({
-      ...sortFieldKey,
-      sortFieldKey: answer_array[0],
+    setSortField((sortorder) => ({
+      ...sortorder,
+      sortorder: answer_array[0],
       sortKey: answer_array[1],
     }));
   };
@@ -57,8 +57,7 @@ const AllProduct = () => {
   // Searching Products
   const searchSubmitHendler = (e) => {
     let searchValue = e.target.value;
-    let value = searchValue.split(" ").join("");
-    setkayword(value);
+    setkayword(searchValue);
     console.log("searchValue", e.target.value);
   };
 
@@ -66,13 +65,24 @@ const AllProduct = () => {
     setPage(value);
   };
   const handleChangepagePerRecords = () => {
-    setpagePerRecords(12);
+    setpageSize(12);
   };
 
   const fetchData = async () => {
+    let addQuery = "";
+    if (keyword) {
+      addQuery = addQuery + `&keyword=${keyword}`;
+    }
+
+    if (sortorder.sortorder && sortorder.sortKey) {
+      addQuery =
+        addQuery +
+        `&sortkey=${sortorder.sortKey}&sortorder=${sortorder.sortorder}`;
+    }
+
     await axios
       .get(
-        `https://node-crud-only.onrender.com/api/products/getall-product?page=${page}&pagePerRecords=${pagePerRecords}&sortFieldKey=${sortFieldKey.sortFieldKey}&sortKey=${sortFieldKey.sortKey}&search=${keyword}`
+        `https://node-crud-only.onrender.com/api/products/getall-product?page=${page}&resultPerPage=${pageSize}${addQuery}`
       )
       .then((data) => {
         console.log("first...", data);
@@ -100,10 +110,12 @@ const AllProduct = () => {
       });
   };
   useEffect(() => {
-    fetchData();
     handleChangepagePerRecords();
-  }, [refresh, page, pagePerRecords, sortFieldKey, sortKey, keyword]);
+  }, [refresh, page, pageSize, sortorder, sortKey, keyword]);
 
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <>
       <div>
@@ -160,14 +172,14 @@ const AllProduct = () => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value="productPrice,1">PRICE - LOW TO HIGH</MenuItem>
-                <MenuItem value="productPrice,-1">
+                <MenuItem value="1,productPrice">PRICE - LOW TO HIGH</MenuItem>
+                <MenuItem value="-1,productPrice">
                   PRICE - HIGH TO LOW{" "}
                 </MenuItem>
-                <MenuItem value="createdAt,1">DATE - NEW TO OLD </MenuItem>
-                <MenuItem value="createdAt,-1">DATE - OLD TO NEW </MenuItem>
-                <MenuItem value="productName,1">NAME - A TO Z</MenuItem>
-                <MenuItem value="productName,-1">NAME - Z TO A </MenuItem>
+                <MenuItem value="1,createdAt">DATE - NEW TO OLD </MenuItem>
+                <MenuItem value="-1,createdAt">DATE - OLD TO NEW </MenuItem>
+                <MenuItem value="1,productName">NAME - A TO Z</MenuItem>
+                <MenuItem value="-1,productName">NAME - Z TO A </MenuItem>
               </Select>
             </FormControl>
           </div>
@@ -177,7 +189,6 @@ const AllProduct = () => {
                 <form className="searchBox" onChange={searchSubmitHendler}>
                   <TextField
                     type="text"
-                    // value="productName"
                     label="🔍Search a Product"
                     style={{ marginLeft: "30%", width: 600 }}
                   />

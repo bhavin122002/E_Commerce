@@ -12,11 +12,9 @@ import Image from "../../images/pic2.png";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
-import { useNavigate } from "react-router-dom";
 import { Container } from "@mui/material";
 
 export default function Login() {
-  const history = useNavigate();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -30,7 +28,7 @@ export default function Login() {
     });
   };
 
-  const login = async ({ onLogin }) => {
+  const login = async () => {
     try {
       await fetch(
         "https://node-crud-only.onrender.com/login/loginadmin",
@@ -55,12 +53,8 @@ export default function Login() {
             // Save the token and email to localStorage
             localStorage.setItem("token", token);
             localStorage.setItem("email", email);
-            onLogin(user);
             alert("Login Successfully");
           }
-        })
-        .catch((error) => {
-          console.log("error: " + error);
         });
     } catch (error) {
       console.error(`error: ${error.message}`);

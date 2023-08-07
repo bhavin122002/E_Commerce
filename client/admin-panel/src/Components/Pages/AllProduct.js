@@ -44,7 +44,6 @@ const AllProduct = () => {
 
   const handleChangePrice = (event) => {
     const value = event.target.value;
-    console.log("firstValue", value);
     const answer_array = value.split(",");
     setFilter(value);
     setSortField((sortorder) => ({
@@ -85,7 +84,6 @@ const AllProduct = () => {
         `https://node-crud-only.onrender.com/api/products/getall-product?page=${page}&resultPerPage=${pageSize}${addQuery}`
       )
       .then((data) => {
-        console.log("first...", data);
         setData(data?.data?.result);
       })
       .catch((err) => {
@@ -115,7 +113,8 @@ const AllProduct = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  });
+
   return (
     <>
       <div>

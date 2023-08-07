@@ -187,6 +187,7 @@ const CardData = ({ addtocart, setAddtocart }) => {
                           src={element.productImage}
                           title="Img Not Found"
                           component="img"
+                          alt="No image Found"
                         />
                       </CardActionArea>
                     </Link>

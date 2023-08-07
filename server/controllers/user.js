@@ -42,6 +42,7 @@ module.exports.Registration = {
             });
           })
           .catch((error) => {
+            alert("User AllReady Registered Plz Different Email Id Entered")
             res.status(500).send({
               message: "Error creating user",
               error,
@@ -65,8 +66,14 @@ module.exports.Login = {
       let user = await User.findOne({
         email: email,
       });
+
+      if (!user) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
       console.log("User Login", user);
-      if (bcrypt.compare(password, user.password)) {
+      const isPasswordMatch = await bcrypt.compare(password, user.password);
+      if (isPasswordMatch) {
         let token = jsonwebtoken.sign(
           {
             id: user._id,
@@ -80,6 +87,9 @@ module.exports.Login = {
         res
           .status(200)
           .send({ message: "Users Successfully Login", result: TokenUser });
+      } else {
+        alert("Invalid Password");
+        return res.status(401).json({ message: "Invalid Password" });
       }
     } catch (error) {
       res.status(500).send({ error: error.message });

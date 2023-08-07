@@ -95,6 +95,7 @@ function ProductDetial() {
                 </div>
               </div>
               <img
+                alt="No image found"
                 src={datanew.productImage}
                 style={{ width: "50%", margin: "10px 20px 0 20px" }}
               />

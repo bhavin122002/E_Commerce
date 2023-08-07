@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Grid } from "@mui/material";
-import { NavLink, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
@@ -11,10 +11,6 @@ function AddtoCartPage({ addtocart }) {
   const backToHome = () => {
     history("/product/Rings");
   };
-
-  // const addtocartitem = (res) => {
-  //   history(`/addtocart/${res}`);
-  // };
 
   const Cartremove = (id) => {
     const removecartitem = addtocart.pop(id);
@@ -35,18 +31,6 @@ function AddtoCartPage({ addtocart }) {
             <span className="button_text"> Continue Shopping </span>
           </Button>
         </Grid>
-        {/* <NavLink to={`/addtocart/${res}`} style={{ textDecoration: "none" }}>
-          <Grid className="button_style" style={{ display: "flex" }}>
-            <Button
-              className="button_style"
-              onClick={() => {
-                addtocartitem(res);
-              }}
-            >
-              <span className="button_text"> Next </span>
-            </Button>
-          </Grid>
-        </NavLink> */}
       </Box>
 
       {addtocart?.map((element, id) => {
@@ -94,7 +78,7 @@ function AddtoCartPage({ addtocart }) {
                     marginTop: "15px",
                   }}
                 >
-                  <img className="image_class" src={element.productImage} />
+                  <img className="image_class" src={element.productImage} alt="No image found"/>
                 </div>
                 <div style={{ width: "80%" }}>
                   <div>

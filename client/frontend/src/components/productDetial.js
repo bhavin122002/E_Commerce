@@ -17,7 +17,6 @@ function ProductDetial() {
     await axios
       .get(`https://node-crud-only.onrender.com/api/products/productdata/${id}`)
       .then((data) => {
-        console.log("idd ===== ", data?.data?.myData[0]);
         setData(data?.data?.myData[0]);
       })
       .catch((err) => {

@@ -21,7 +21,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/reset" element={<ResetPass />} />
-        <Route path="/cart" element={<AddtoCartPage addtocart={addtocart}/>} />
+        <Route path="/cart" element={<AddtoCartPage addtocart={addtocart} />} />
         <Route
           path="/product/:category"
           element={
@@ -29,7 +29,10 @@ const App = () => {
           }
         />
         <Route path="/productdata/:id" element={<ProductDetils />} />
-        <Route path="/addtocart/:id" element={<AddtoCart />} />
+        <Route
+          path="/addtocart/:id"
+          element={<AddtoCart addtocart={addtocart} />}
+        />
       </Routes>
     </>
   );

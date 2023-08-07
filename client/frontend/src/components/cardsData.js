@@ -16,7 +16,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Shipfast from "./shipfast";
 import Paper from "@mui/material/Paper";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
@@ -26,7 +26,6 @@ import axios from "axios";
 
 const CardData = ({ addtocart, setAddtocart }) => {
   const [data, setData] = useState("");
-  const history = useNavigate();
   let { category } = useParams();
   const [page, setPage] = useState(1);
   const [keyword, setkayword] = useState("");
@@ -37,9 +36,6 @@ const CardData = ({ addtocart, setAddtocart }) => {
     sortorder: "",
     sortKey: "",
   });
-
-  console.log("first", data);
-  console.log("first.............", addtocart);
 
   const handleChangePrice = (event) => {
     const value = event.target.value;
@@ -54,8 +50,7 @@ const CardData = ({ addtocart, setAddtocart }) => {
   };
 
   const AddtoCart = (data) => {
-    console.log("first add to cart", data);
-    setAddtocart([...addtocart,data]);
+    setAddtocart([...addtocart, data]);
   };
 
   const handleChange = (event, value) => {
@@ -242,7 +237,6 @@ const CardData = ({ addtocart, setAddtocart }) => {
                           borderRadius: "5px",
                         }}
                       >
-                        <Link to={`/productdata/${element._id}`}>
                           <Button
                             size="small"
                             style={{
@@ -264,7 +258,6 @@ const CardData = ({ addtocart, setAddtocart }) => {
                               Add to Cart
                             </span>
                           </Button>
-                        </Link>
                       </CardActions>
                     </div>
                   </Card>

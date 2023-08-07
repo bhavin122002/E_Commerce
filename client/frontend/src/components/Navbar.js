@@ -15,7 +15,6 @@ import { NavLink, useNavigate, Link } from "react-router-dom";
 
 function ResponsiveAppBar({ addtocart }) {
   const [value, setValue] = useState();
-  console.log("first addtocart", addtocart);
   // Page auto refreshed
   const [refresh, setRefresh] = useState(false);
   const handleRefresh = useCallback(() => setRefresh(!refresh), [refresh]);
@@ -23,7 +22,6 @@ function ResponsiveAppBar({ addtocart }) {
   const history = useNavigate();
 
   const getValueNavbar = (e) => {
-    console.log("first", e);
     history("/product/" + e);
     setValue(e.target.getAttribute("href").split("/")[1]);
   };
@@ -181,9 +179,6 @@ function ResponsiveAppBar({ addtocart }) {
                         color: "white",
                         height: "35px",
                         width: "35px",
-                      }}
-                      onClick={() => {
-                        console.log("Cart Items");
                       }}
                     />
                   </Badge>

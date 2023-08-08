@@ -28,6 +28,7 @@ const CardData = ({ addtocart, setAddtocart }) => {
   const [data, setData] = useState("");
   let { category } = useParams();
   const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
   const [keyword, setkayword] = useState("");
   const [pageSize, setpageSize] = useState("");
   const [sortKey] = useState("");
@@ -47,6 +48,20 @@ const CardData = ({ addtocart, setAddtocart }) => {
       sortorder: answer_array[0],
       sortKey: answer_array[1],
     }));
+  };
+
+  const Increment = () => {
+    console.log("Increment", count + 1);
+    setCount(count + 1);
+  };
+
+  const Decrement = () => {
+    console.log("Decrement", count - 1);
+    if (count === 0) {
+      alert("Negative quantity not allowed");
+    } else {
+      setCount(count - 1);
+    }
   };
 
   const AddtoCart = (data) => {
@@ -82,7 +97,6 @@ const CardData = ({ addtocart, setAddtocart }) => {
         `&sortkey=${sortorder.sortKey}&sortorder=${sortorder.sortorder}`;
     }
 
-    // console.log("addQuery: " + addQuery);
     await axios
       .get(
         `https://node-crud-only.onrender.com/api/products/getall-product?page=${page}&resultPerPage=${pageSize}${addQuery}`
@@ -90,6 +104,19 @@ const CardData = ({ addtocart, setAddtocart }) => {
       .then((data) => {
         // console.log("first...", data);
         setData(data?.data?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const AddtoCartPage = async (id) => {
+    console.log("id==========......", id);
+    await axios
+      .post(`http://localhost:5400/addtocart/add-addtocart/${id}`)
+      .then((data) => {
+        console.log("first...", data);
+        // setData(data?.data?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -187,7 +214,6 @@ const CardData = ({ addtocart, setAddtocart }) => {
                           src={element.productImage}
                           title="Img Not Found"
                           component="img"
-                          alt="No image Found"
                         />
                       </CardActionArea>
                     </Link>
@@ -227,6 +253,51 @@ const CardData = ({ addtocart, setAddtocart }) => {
                             ₹ {element.dummyPrice}
                           </span>
                         </Typography>
+                        <div class="quantity-toggle">
+                          <Button
+                            style={{
+                              border: "2px solid #ddd",
+                              padding: ".5rem",
+                              background: "#f5f5f5",
+                              color: "#888",
+                              fontSize: "1rem",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              Decrement();
+                            }}
+                          >
+                            &mdash;
+                          </Button>
+                          <input
+                            style={{
+                              border: 0,
+                              borderTop: "2px solid #ddd",
+                              borderBottom: "2px solid #ddd",
+                              width: "2.5rem",
+                              height: "43px",
+                              textAlign: "center",
+                              padding: "0 .5rem",
+                            }}
+                            type="text"
+                            value={count}
+                          />
+                          <Button
+                            style={{
+                              border: "2px solid #ddd",
+                              padding: ".5rem",
+                              background: "#f5f5f5",
+                              color: "#888",
+                              fontSize: "1rem",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              Increment();
+                            }}
+                          >
+                            &#xff0b;
+                          </Button>
+                        </div>
                       </CardContent>
 
                       <CardActions
@@ -238,27 +309,25 @@ const CardData = ({ addtocart, setAddtocart }) => {
                           borderRadius: "5px",
                         }}
                       >
-                          <Button
-                            size="small"
-                            style={{
-                              padding: "5px 20px",
-                              fontSize: "18px",
-                              fontWeight: 700,
-                              letterSpacing: ".15px",
-                              color: "white",
-                            }}
-                            onClick={() => {
-                              AddtoCart(element);
-                            }}
-                          >
-                            <LocalMallIcon
-                              style={{ margin: "8px", color: "white" }}
-                            />
-                            <span style={{ marginTop: "8px" }}>
-                              {" "}
-                              Add to Cart
-                            </span>
-                          </Button>
+                        <Button
+                          size="small"
+                          style={{
+                            padding: "5px 20px",
+                            fontSize: "18px",
+                            fontWeight: 700,
+                            letterSpacing: ".15px",
+                            color: "white",
+                          }}
+                          onClick={() => {
+                            AddtoCart(element);
+                            AddtoCartPage(element._id);
+                          }}
+                        >
+                          <LocalMallIcon
+                            style={{ margin: "8px", color: "white" }}
+                          />
+                          <span style={{ marginTop: "8px" }}> Add to Cart</span>
+                        </Button>
                       </CardActions>
                     </div>
                   </Card>

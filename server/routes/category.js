@@ -11,7 +11,6 @@ const {
   getAllCategory,
   getCategory,
 } = require("../controllers/category");
-// const { authUser, authRole } = require("../helper/adminAuthentication");
 const { upload } = require("../helper/imageUpload");
 
 /* ------------------------   getall category  ------------------------ */

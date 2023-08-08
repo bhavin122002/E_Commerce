@@ -22,13 +22,20 @@ app.get("/", (req, res) => {
 /* ------------  images  ------------ */
 app.use("/images", express.static("images"));
 
-// middleware or to set router
+// middleware or to set Products router
 app.use("/api/products", require("./routes/products"));
+
+// middleware or to set Login And register,logout,Coustemer List  routes
 app.use("/login", require("./routes/user"));
 app.use("/coustemer", require("./routes/user"));
 app.use("/register", require("./routes/user"));
 app.use("/logout", require("./routes/user"));
+
+// middleware or to set category routes
 app.use("/category", require("./routes/category"));
+
+// middleware or to set Add To Cart routes
+app.use("/addtocart", require("./routes/AddToCart"));
 
 const start = async () => {
   try {
@@ -37,7 +44,7 @@ const start = async () => {
       console.log(`http://localhost:${PORT} Yes I Am Connected 👍👍`);
     });
   } catch (error) {
-    console.log("ERROR ❌❌",error);
+    console.log("ERROR ❌❌", error);
   }
 };
 

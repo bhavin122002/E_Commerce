@@ -94,7 +94,7 @@ module.exports.MSG = {
   CATEGORY_NOT_FOUND: " Category not found..",
 
   /*  ----------------- ADD CATEGORY ----------------- */
-  CREATE_SUCCESS: " create successfully..",
+  CREATE_SUCCESS: " Create Successfully..",
 
   /*  ----------------- UPDATE CATEGORY ----------------- */
   CATEGORY_NOT_FOUND: " Category not found..",
@@ -103,6 +103,10 @@ module.exports.MSG = {
   /*  ----------------- DELETE CATEGORY ----------------- */
   CATEGORY_NOT_FOUND: " Category not found..",
   DELETE_SUCCESS: " delete successfully..",
+
+  /*  ----------------- UPDATE Addtocart ----------------- */
+  Addtocart_NOT_FOUND: " Addtocart not found..",
+  UPDATE_SUCCESS: " update successfully..",
 
   /* --------------------------------------------------  APPOINTMENT  -------------------------------------------------- */
   FOUND_SUCCESS: " found successfully..",

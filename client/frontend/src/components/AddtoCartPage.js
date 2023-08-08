@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Grid } from "@mui/material";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import { QuantityPicker } from "react-qty-picker";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 
 function AddtoCartPage({ addtocart }) {
@@ -78,7 +79,11 @@ function AddtoCartPage({ addtocart }) {
                     marginTop: "15px",
                   }}
                 >
-                  <img className="image_class" src={element.productImage} alt="No image found"/>
+                  <img
+                    className="image_class"
+                    src={element.productImage}
+                    alt="No image found"
+                  />
                 </div>
                 <div style={{ width: "80%" }}>
                   <div>
@@ -136,6 +141,13 @@ function AddtoCartPage({ addtocart }) {
                       <span style={{ paddingLeft: "23px" }}>
                         {element.productSize}
                       </span>
+                    </div>
+                    <div style={{ margin: "15px 20px" }}>
+                      <QuantityPicker
+                        onChange={(value) => {
+                          console.log(value);
+                        }}
+                      />
                     </div>
                   </div>
                 </div>

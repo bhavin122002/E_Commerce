@@ -1,25 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box, Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { QuantityPicker } from "react-qty-picker";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import axios from "axios";
 
-function AddtoCartPage({ addtocart }) {
+function AddtoCartPage() {
   const [res, setRes] = useState("");
+  const [cartdata, setCartdata] = useState([]);
+  console.log("first addtocart", cartdata);
   const history = useNavigate();
   const backToHome = () => {
     history("/product/Rings");
   };
 
-  const Cartremove = (id) => {
-    const removecartitem = addtocart.pop(id);
-    setRes(removecartitem);
-    console.log("remove successfully", removecartitem);
+  // Page auto refreshed
+  const [refresh, setRefresh] = useState(false);
+  const handleRefresh = useCallback(() => setRefresh(!refresh), [refresh]);
+
+  // get single data loaded
+  const Addtocart = async () => {
+    try {
+      console.log(" loading addtocart");
+      let userIDget = localStorage.getItem("userID");
+      console.log("userID", userIDget);
+      await axios
+        .get(`http://localhost:5400/addtocart/get-addtocart/${userIDget}`)
+        .then((response) => {
+          setCartdata(response?.data?.message);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.log("invalid input", error);
+    }
   };
 
-  useEffect(() => {}, [res]);
+  // Single Category Delete
+  const Cartremove = async () => {
+    try {
+      await axios
+        .delete(`http://localhost:5400/addtocart/delete-addtocart/${res}`)
+        .then(() => {
+          handleRefresh();
+          console.log("Item deleted successfully");
+        })
+        .catch((error) => {
+          handleRefresh();
+          console.error("Error deleting item:", error);
+        });
+    } catch (error) {
+      console.log("Remove Failed", error);
+    }
+  };
+
+  useEffect(() => {
+    Addtocart();
+  }, [refresh]);
 
   return (
     <div style={{ margin: "10px" }}>
@@ -34,7 +74,7 @@ function AddtoCartPage({ addtocart }) {
         </Grid>
       </Box>
 
-      {addtocart?.map((element, id) => {
+      {cartdata?.map((element, id) => {
         return (
           <Grid
             style={{
@@ -214,7 +254,8 @@ function AddtoCartPage({ addtocart }) {
                 <DeleteOutlinedIcon
                   style={{ marginRight: "12px" }}
                   onClick={() => {
-                    Cartremove(element._id);
+                    Cartremove();
+                    setRes(element._id);
                     console.log("Delete", element._id);
                   }}
                 />

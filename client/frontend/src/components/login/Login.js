@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
 import Image from "../../Images/pic1.png";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
@@ -53,13 +53,13 @@ const Login = () => {
         })
         .then((response) => {
           console.log(response);
-          const token = response.result.Token;
+          // const token = response.result.Token;
           const email = response.result.email;
-          console.log("tokent", response);
-          if (token && email) {
+          const id = response.result._id;
+          if (email && id) {
             // Save the token to localStorage
-            localStorage.setItem("token", token);
             localStorage.setItem("email", email);
+            localStorage.setItem("userID", id);
             onLogin(user);
             alert("Login Successfully");
           }
@@ -160,22 +160,25 @@ const Login = () => {
                   }
                   label="Remember me"
                 />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                  onClick={login}
-                  style={{
-                    backgroundColor: "#2fbccc",
-                    color: "white",
-                    fontWeight: "bold",
-                    borderRadius: "10px",
-                  }}
-                >
-                  <LoginRoundedIcon style={{ marginRight: "5px" }} />
-                  Login
-                </Button>
+                <NavLink to={"/"}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    onClick={login}
+                    style={{
+                      backgroundColor: "#2fbccc",
+                      color: "white",
+                      fontWeight: "bold",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <LoginRoundedIcon style={{ marginRight: "5px" }} />
+                    Login
+                  </Button>
+                </NavLink>
+
                 <Grid container style={{ display: "flex", marginTop: "30px" }}>
                   <Grid>
                     <a href="#">

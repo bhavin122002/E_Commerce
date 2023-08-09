@@ -193,7 +193,7 @@ export default function Category() {
       .delete(
         `https://node-crud-only.onrender.com/category/delete-category/${deleteid}`
       )
-      .then((response) => {
+      .then(() => {
         handleRefresh();
         // Handle success
         console.log("Item deleted successfully");

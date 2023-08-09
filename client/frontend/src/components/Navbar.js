@@ -30,6 +30,8 @@ function ResponsiveAppBar({ addtocart }) {
     history("/register");
   };
 
+  
+
   useEffect(() => {
     handleRefresh();
   }, []);

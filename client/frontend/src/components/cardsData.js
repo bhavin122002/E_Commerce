@@ -36,7 +36,7 @@ const CardData = ({ addtocart, setAddtocart }) => {
   const [sortorder, setSortField] = useState({
     sortorder: "",
     sortKey: "",
-  });
+  }); 
 
   const handleChangePrice = (event) => {
     const value = event.target.value;
@@ -111,18 +111,18 @@ const CardData = ({ addtocart, setAddtocart }) => {
   };
 
   const AddtoCartPage = async (id) => {
-    console.log("id==========......", id);
+    let userIDget = localStorage.getItem("userID");
+    console.log("userID", userIDget);
+    console.log("productID", id);
     await axios
-      .post(`http://localhost:5400/addtocart/add-addtocart/${id}`)
+      .post(`http://localhost:5400/addtocart/add-addtocart/${id}/${userIDget}`)
       .then((data) => {
         console.log("first...", data);
-        // setData(data?.data?.result);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
   useEffect(() => {
     handleChangepageSize();
   }, [page, pageSize, sortorder, sortKey, keyword]);

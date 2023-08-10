@@ -16,13 +16,13 @@ const {
 router.get("/getall-addtocart", getAllAddtocart.controller);
 
 /* ------------------------  get category  ------------------------ */
-router.get("/get-addtocart/:userID", getAddtocart.controller);
+router.get("/get-addtocart/:productID/:userID", getAddtocart.controller);
 
 /* ------------------------  post category  ------------------------ */
 router.post("/add-addtocart/:productID/:userID", Addaddtocart.controller);
 
 /* ------------------------  update category  ------------------------ */
-router.post("/update-addtocart/:id", UpdateAddtocart.controller);
+router.post("/update-addtocart/:productID", UpdateAddtocart.controller);
 
 /* ------------------------  delete category  ------------------------ */
 router.delete("/delete-addtocart/:id", DeleteAddtocart.controller);

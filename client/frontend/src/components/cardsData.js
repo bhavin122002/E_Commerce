@@ -28,7 +28,7 @@ const CardData = ({ addtocart, setAddtocart }) => {
   const [data, setData] = useState("");
   let { category } = useParams();
   const [page, setPage] = useState(1);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState({ id: "", count: 0 });
   const [keyword, setkayword] = useState("");
   const [pageSize, setpageSize] = useState("");
   const [sortKey] = useState("");
@@ -36,7 +36,7 @@ const CardData = ({ addtocart, setAddtocart }) => {
   const [sortorder, setSortField] = useState({
     sortorder: "",
     sortKey: "",
-  }); 
+  });
 
   const handleChangePrice = (event) => {
     const value = event.target.value;
@@ -48,20 +48,6 @@ const CardData = ({ addtocart, setAddtocart }) => {
       sortorder: answer_array[0],
       sortKey: answer_array[1],
     }));
-  };
-
-  const Increment = () => {
-    console.log("Increment", count + 1);
-    setCount(count + 1);
-  };
-
-  const Decrement = () => {
-    console.log("Decrement", count - 1);
-    if (count === 0) {
-      alert("Negative quantity not allowed");
-    } else {
-      setCount(count - 1);
-    }
   };
 
   const AddtoCart = (data) => {
@@ -110,12 +96,14 @@ const CardData = ({ addtocart, setAddtocart }) => {
       });
   };
 
-  const AddtoCartPage = async (id) => {
+  const AddtoCartPage = async (id, data) => {
     let userIDget = localStorage.getItem("userID");
     console.log("userID", userIDget);
     console.log("productID", id);
     await axios
-      .post(`http://localhost:5400/addtocart/add-addtocart/${id}/${userIDget}`)
+      .post(
+        `http://localhost:5400/addtocart/add-addtocart/${userIDget}/${id}`
+      )
       .then((data) => {
         console.log("first...", data);
       })
@@ -126,6 +114,39 @@ const CardData = ({ addtocart, setAddtocart }) => {
   useEffect(() => {
     handleChangepageSize();
   }, [page, pageSize, sortorder, sortKey, keyword]);
+
+  const Increment = (id) => {
+    const updatedData = data.map((item) => {
+      if (item._id === id) {
+        const countd = item.count ? item.count + 1 : 1;
+        console.log("count", "item.count", item.count, countd);
+        return { ...item, count: countd };
+      }
+      return item;
+    });
+    console.log("Increment", updatedData);
+    setData(updatedData);
+    console.log("data", data[1]?.count);
+  };
+
+  const Decrement = (id) => {
+    const updatedData = data.map((item) => {
+      if (item._id === id) {
+        const countd = item.count ? item.count - 1 : 0;
+        console.log("count", "item.count", item.count, countd);
+        return { ...item, count: countd };
+      }
+      return item;
+    });
+    console.log("Decrement", updatedData);
+    setData(updatedData);
+    console.log("data", data[1]?.count);
+    if (count === 1) {
+      alert("Negative quantity not allowed");
+    } else {
+      setCount(count.count - 1);
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -264,7 +285,7 @@ const CardData = ({ addtocart, setAddtocart }) => {
                               cursor: "pointer",
                             }}
                             onClick={() => {
-                              Decrement();
+                              Decrement(element._id);
                             }}
                           >
                             &mdash;
@@ -280,7 +301,7 @@ const CardData = ({ addtocart, setAddtocart }) => {
                               padding: "0 .5rem",
                             }}
                             type="text"
-                            value={count}
+                            value={element.count ? element.count : 0}
                           />
                           <Button
                             style={{
@@ -292,7 +313,7 @@ const CardData = ({ addtocart, setAddtocart }) => {
                               cursor: "pointer",
                             }}
                             onClick={() => {
-                              Increment();
+                              Increment(element._id);
                             }}
                           >
                             &#xff0b;

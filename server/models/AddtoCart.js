@@ -35,9 +35,9 @@ const AddtocartSchema = new mongoose.mongoose.Schema(
     productDescription: {
       type: String,
     },
-    // qty: {
-    //   type: Number,
-    // },
+    count: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );

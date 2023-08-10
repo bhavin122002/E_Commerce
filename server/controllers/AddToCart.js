@@ -141,11 +141,12 @@ module.exports.UpdateAddtocart = {
 module.exports.DeleteAddtocart = {
   controller: async (req, res) => {
     try {
-      /*  ----------------- find Addtocart by id   ----------------- */
-      let addtocart = await Addtocart.findByIdAndRemove({
-        _id: new mongoose.Types.ObjectId(req.params.id),
-      });
       console.log("delete id", req.params.id);
+      /*  ----------------- find Addtocart by id   ----------------- */
+      let addtocart = await Addtocart.deleteMany({
+        productID: req.params.id?.toString(),
+      });
+      console.log("first addtocart", addtocart);
       /*  ----------------- check Addtocart exist   ----------------- */
       if (!addtocart) {
         return res.send(

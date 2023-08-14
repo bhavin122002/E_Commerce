@@ -22,7 +22,7 @@ function AddtoCartPage() {
       console.log("userID....... addtocarpage file", userIDget);
       await axios
         .get(
-          `http://localhost:5400/addtocart/get-addtocart/${userIDget}`
+          `https://node-crud-only.onrender.com/addtocart/get-addtocart/${userIDget}`
         )
         .then((response) => {
           setCartdata(response?.data?.message);
@@ -39,7 +39,7 @@ function AddtoCartPage() {
   const Cartremove = async (id) => {
     try {
       await axios
-        .delete(`http://localhost:5400/addtocart/delete-addtocart/${id}`)
+        .delete(`https://node-crud-only.onrender.com/addtocart/delete-addtocart/${id}`)
         .then(() => {
           setRes(true);
           console.log("Item deleted successfully");
@@ -266,6 +266,9 @@ function AddtoCartPage() {
                               padding: "0 .5rem",
                             }}
                             type="text"
+                            // onClick={() => {
+                            //   Addtocart(element.count);
+                            // }}
                             value={element.count ? element.count : 0}
                           />
                           <Button

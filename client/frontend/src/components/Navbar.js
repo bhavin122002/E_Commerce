@@ -12,9 +12,14 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Badge from "@mui/material/Badge";
 // import logo from "../Images/logo1.png";
 import { NavLink, useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 
 function ResponsiveAppBar({ addtocart }) {
   const [value, setValue] = useState();
+  const [cartdata, setCartdata] = useState([]);
+
+  console.log("first argument", cartdata);
+
   // Page auto refreshed
   const [refresh, setRefresh] = useState(false);
   const handleRefresh = useCallback(() => setRefresh(!refresh), [refresh]);
@@ -26,12 +31,31 @@ function ResponsiveAppBar({ addtocart }) {
     setValue(e.target.getAttribute("href").split("/")[1]);
   };
 
+  // get single data loaded
+  const Addtocart = async () => {
+    try {
+      let userIDget = localStorage.getItem("userID");
+      console.log("userID....... addtocarpage file", userIDget);
+      await axios
+        .get(`https://node-crud-only.onrender.com/addtocart/get-addtocart/${userIDget}`)
+        .then((response) => {
+          setCartdata(response?.data?.message);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.log("invalid input", error);
+    }
+  };
+
   const handleOpenUserMenu = () => {
     history("/register");
   };
 
   useEffect(() => {
     handleRefresh();
+    Addtocart();
   }, []);
 
   return (
@@ -170,7 +194,7 @@ function ResponsiveAppBar({ addtocart }) {
               <Tooltip title="Cart Items">
                 <IconButton sx={{ p: 0 }}>
                   <Badge
-                    badgeContent={addtocart?.length}
+                    badgeContent={cartdata?.length}
                     color="error"
                     style={{ margin: "15px" }}
                   >

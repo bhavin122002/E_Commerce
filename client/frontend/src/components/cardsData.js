@@ -54,7 +54,7 @@ const CardData = ({ addtocart, setAddtocart }) => {
     setAddtocart([...addtocart, data]);
   };
 
-  const handleChange = (event, value) => {
+  const handleChange = (value) => {
     setPage(value);
   };
   const handleChangepageSize = () => {
@@ -88,7 +88,6 @@ const CardData = ({ addtocart, setAddtocart }) => {
         `https://node-crud-only.onrender.com/api/products/getall-product?page=${page}&resultPerPage=${pageSize}${addQuery}`
       )
       .then((data) => {
-        // console.log("first...", data);
         setData(data?.data?.result);
       })
       .catch((err) => {
@@ -96,13 +95,14 @@ const CardData = ({ addtocart, setAddtocart }) => {
       });
   };
 
-  const AddtoCartPage = async (id, data) => {
+  const AddtoCartPage = async (id, count) => {
     let userIDget = localStorage.getItem("userID");
-    console.log("userID", userIDget);
-    console.log("productID", id);
+    console.log("userID carddata file", userIDget);
+    console.log("productID carddata file", id);
+    console.log("count carddata file", count);
     await axios
       .post(
-        `http://localhost:5400/addtocart/add-addtocart/${userIDget}/${id}`
+        `https://node-crud-only.onrender.com/addtocart/add-addtocart/${userIDget}/${id}/${count}`
       )
       .then((data) => {
         console.log("first...", data);
@@ -111,11 +111,12 @@ const CardData = ({ addtocart, setAddtocart }) => {
         console.log(err);
       });
   };
+
   useEffect(() => {
     handleChangepageSize();
   }, [page, pageSize, sortorder, sortKey, keyword]);
 
-  const Increment = (id) => {
+  const Increment = (id, data) => {
     const updatedData = data.map((item) => {
       if (item._id === id) {
         const countd = item.count ? item.count + 1 : 1;
@@ -141,7 +142,7 @@ const CardData = ({ addtocart, setAddtocart }) => {
     console.log("Decrement", updatedData);
     setData(updatedData);
     console.log("data", data[1]?.count);
-    if (count === 1) {
+    if (count.count === 0) {
       alert("Negative quantity not allowed");
     } else {
       setCount(count.count - 1);
@@ -285,7 +286,7 @@ const CardData = ({ addtocart, setAddtocart }) => {
                               cursor: "pointer",
                             }}
                             onClick={() => {
-                              Decrement(element._id);
+                              Decrement(element._id, data);
                             }}
                           >
                             &mdash;
@@ -313,7 +314,7 @@ const CardData = ({ addtocart, setAddtocart }) => {
                               cursor: "pointer",
                             }}
                             onClick={() => {
-                              Increment(element._id);
+                              Increment(element._id, data);
                             }}
                           >
                             &#xff0b;
@@ -341,7 +342,7 @@ const CardData = ({ addtocart, setAddtocart }) => {
                           }}
                           onClick={() => {
                             AddtoCart(element);
-                            AddtoCartPage(element._id);
+                            AddtoCartPage(element._id, element.count);
                           }}
                         >
                           <LocalMallIcon

@@ -37,7 +37,6 @@ class ApiFeatures {
     let queryStr = JSON.stringify(queryCopy);
 
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
-    console.log("queryStr: " + queryStr);
 
     this.query = this.query.find(JSON.parse(queryStr));
 
@@ -57,7 +56,6 @@ class ApiFeatures {
   sort() {
     let val = this.queryStr.sortorder;
     let key = this.queryStr.sortkey;
-    console.log("val", val, "key", key);
     this.query = this.query.sort({ [key]: val });
     return this;
   }

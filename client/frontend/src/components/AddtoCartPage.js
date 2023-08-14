@@ -16,13 +16,13 @@ function AddtoCartPage() {
   };
 
   // get single data loaded
-  const Addtocart = async (id) => {
+  const Addtocart = async () => {
     try {
       let userIDget = localStorage.getItem("userID");
-      console.log("userID", userIDget);
+      console.log("userID....... addtocarpage file", userIDget);
       await axios
         .get(
-          `http://localhost:5400/addtocart/get-addtocart/${userIDget}/${id}`
+          `http://localhost:5400/addtocart/get-addtocart/${userIDget}`
         )
         .then((response) => {
           setCartdata(response?.data?.message);

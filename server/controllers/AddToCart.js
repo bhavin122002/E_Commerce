@@ -81,8 +81,9 @@ module.exports.Addaddtocart = {
   controller: async (req, res) => {
     try {
       let data = {
-        productID: req.params.productID,
         userID: req.params.userID,
+        productID: req.params.productID,
+        count: req.params.count,
       };
       console.log("first addtocart called", data);
       /*  ----------------- create a new Addtocart ----------------- */

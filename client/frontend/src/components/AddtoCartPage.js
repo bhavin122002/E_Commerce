@@ -35,11 +35,13 @@ function AddtoCartPage() {
     }
   };
 
-  // Single Category Delete
+  // Single Add To Cart Delete
   const Cartremove = async (id) => {
     try {
       await axios
-        .delete(`https://node-crud-only.onrender.com/addtocart/delete-addtocart/${id}`)
+        .delete(
+          `https://node-crud-only.onrender.com/addtocart/delete-addtocart/${id}`
+        )
         .then(() => {
           setRes(true);
           console.log("Item deleted successfully");
@@ -266,9 +268,6 @@ function AddtoCartPage() {
                               padding: "0 .5rem",
                             }}
                             type="text"
-                            // onClick={() => {
-                            //   Addtocart(element.count);
-                            // }}
                             value={element.count ? element.count : 0}
                           />
                           <Button

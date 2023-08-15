@@ -14,7 +14,7 @@ import Badge from "@mui/material/Badge";
 import { NavLink, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
-function ResponsiveAppBar({ addtocart }) {
+function ResponsiveAppBar() {
   const [value, setValue] = useState();
   const [cartdata, setCartdata] = useState([]);
 
@@ -37,7 +37,9 @@ function ResponsiveAppBar({ addtocart }) {
       let userIDget = localStorage.getItem("userID");
       console.log("userID....... addtocarpage file", userIDget);
       await axios
-        .get(`https://node-crud-only.onrender.com/addtocart/get-addtocart/${userIDget}`)
+        .get(
+          `https://node-crud-only.onrender.com/addtocart/get-addtocart/${userIDget}`
+        )
         .then((response) => {
           setCartdata(response?.data?.message);
         })

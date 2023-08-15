@@ -14,35 +14,54 @@ import last_footer from "../Images/last_footer.png";
 import "../App.css";
 import axios from "axios";
 
-function AddtoCart({ addtocart }) {
-  const [datanew, setData] = useState({});
-  const [res, setRes] = useState();
-  console.log(" addto Cart .........", addtocart);
-  let { id } = useParams();
+function AddtoCart() {
+  const [datanew, setCartdata] = useState([]);
+  const [res, setRes] = useState(false);
 
-  const fetchData = async () => {
-    await axios
-      .get(`https://node-crud-only.onrender.com/api/products/addtocart/${id}`)
-      .then((data) => {
-        setRes(data?.data?.myData);
-        setData(data?.data?.myData[0]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  let { count } = useParams();
+  console.log("first: " + count)
+
+  const Addtocart = async () => {
+    try {
+      let userIDget = localStorage.getItem("userID");
+      console.log("userID....... addtocarpage file", userIDget);
+      await axios
+        .get(
+          `https://node-crud-only.onrender.com/addtocart/get-addtocart/${userIDget}/${count}`
+        )
+        .then((response) => {
+          setCartdata(response?.data?.message);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.log("invalid input", error);
+    }
   };
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-  const Cartremove = (id) => {
-    addtocart.pop(id);
-    res?.filter((e) => {
-      return e.id !== id;
-    });
-    console.log("remove successfully", res);
+  // Single Add To Cart Delete
+  const Cartremove = async (id) => {
+    try {
+      await axios
+        .delete(
+          `https://node-crud-only.onrender.com/addtocart/delete-addtocart/${id}`
+        )
+        .then(() => {
+          setRes(true);
+          console.log("Item deleted successfully");
+        })
+        .catch((error) => {
+          console.error("Error deleting item:", error);
+        });
+    } catch (error) {
+      console.log("Remove Failed", error);
+    }
   };
 
   useEffect(() => {
-    fetchData();
+    Addtocart();
   }, [res]);
 
   return (
@@ -67,7 +86,7 @@ function AddtoCart({ addtocart }) {
       >
         <Box style={{ display: "flex" }}>
           <div className="checkout_border">
-            {addtocart?.map((element, id) => {
+            {datanew?.map((element) => {
               return (
                 <Grid
                   style={{
@@ -223,30 +242,34 @@ function AddtoCart({ addtocart }) {
                       flexDirection: "row",
                     }}
                   >
-                    <span
+                    <button
                       style={{
-                        display: "flex",
-                        width: "60%",
-                        alignItems: "center",
-                        justifyContent: "flex-end",
-                        textTransform: "uppercase",
-                        color: "#6e7191",
-                        cursor: "pointer",
-                        padding: "3px 16px",
-                        fontWeight: "700",
-                        fontSize: "12px",
-                        letterSpacing: "2.25px",
+                        border: "none",
+                        backgroundColor: "#f9f9f9",
+                      }}
+                      onClick={() => {
+                        Cartremove(element._id);
                       }}
                     >
-                      <DeleteOutlinedIcon
-                        style={{ marginRight: "12px" }}
-                        onClick={() => {
-                          Cartremove(element._id);
-                          console.log("Delete", element._id);
+                      <span
+                        style={{
+                          display: "flex",
+                          width: "60%",
+                          alignItems: "center",
+                          justifyContent: "flex-end",
+                          textTransform: "uppercase",
+                          color: "#6e7191",
+                          cursor: "pointer",
+                          padding: "3px 16px",
+                          fontWeight: "700",
+                          fontSize: "12px",
+                          letterSpacing: "2.25px",
                         }}
-                      />
-                      Remove
-                    </span>
+                      >
+                        <DeleteOutlinedIcon style={{ marginRight: "12px" }} />
+                        Remove
+                      </span>
+                    </button>
                   </Grid>
                 </Grid>
               );

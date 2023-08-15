@@ -24,7 +24,7 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
 
-const CardData = ({ addtocart, setAddtocart }) => {
+const CardData = () => {
   const [data, setData] = useState("");
   let { category } = useParams();
   const [page, setPage] = useState(1);
@@ -48,10 +48,6 @@ const CardData = ({ addtocart, setAddtocart }) => {
       sortorder: answer_array[0],
       sortKey: answer_array[1],
     }));
-  };
-
-  const AddtoCart = (data) => {
-    setAddtocart([...addtocart, data]);
   };
 
   const handleChange = (value) => {
@@ -341,7 +337,6 @@ const CardData = ({ addtocart, setAddtocart }) => {
                             color: "white",
                           }}
                           onClick={() => {
-                            AddtoCart(element);
                             AddtoCartPage(element._id, element.count);
                           }}
                         >

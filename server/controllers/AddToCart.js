@@ -37,6 +37,7 @@ module.exports.getAddtocart = {
 
       /*  ----------------- find Addtocart by id   ----------------- */
       const addtocart = await Addtocart.find(getData);
+      console.log("first addtocart", addtocart);
 
       let productIdArr = [];
       addtocart?.map((e) => {
@@ -44,7 +45,6 @@ module.exports.getAddtocart = {
       });
 
       console.log("productIdArr", productIdArr);
-
       const product = await Product.find({ _id: { $in: productIdArr } });
       console.log("product", product);
       /*  ----------------- check Addtocart exist ----------------- */

@@ -9,7 +9,7 @@ import "../App.css";
 import axios from "axios";
 
 function ProductDetial() {
-  const [datanew, setData] = useState({});
+  const [datanew, setData] = useState([]);
   let { id } = useParams();
 
   const fetchData = async () => {
@@ -17,7 +17,7 @@ function ProductDetial() {
     await axios
       .get(`https://node-crud-only.onrender.com/api/products/productdata/${id}`)
       .then((data) => {
-        setData(data?.data?.myData[0]);
+        setData(data?.data?.myData);
       })
       .catch((err) => {
         console.log(err);

@@ -12,27 +12,18 @@ import Register from "./components/register/Register";
 import { useState } from "react";
 
 const App = () => {
-  const [addtocart, setAddtocart] = useState([]);
   return (
     <>
-      <Navbar addtocart={addtocart} />
+      <Navbar />
       <Routes>
         <Route exact path="/" element={<AutoImageSlider />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/reset" element={<ResetPass />} />
-        <Route path="/cart" element={<AddtoCartPage addtocart={addtocart} />} />
-        <Route
-          path="/product/:category"
-          element={
-            <CardData addtocart={addtocart} setAddtocart={setAddtocart} />
-          }
-        />
+        <Route path="/cart" element={<AddtoCartPage />} />
+        <Route path="/product/:category" element={<CardData />} />
         <Route path="/productdata/:id" element={<ProductDetils />} />
-        <Route
-          path="/addtocart/:id"
-          element={<AddtoCart addtocart={addtocart} />}
-        />
+        <Route path="/addtocart/:id" element={<AddtoCart />} />
       </Routes>
     </>
   );

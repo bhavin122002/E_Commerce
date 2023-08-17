@@ -37,10 +37,11 @@ module.exports.getAddtocart = {
 
       /*  ----------------- find Addtocart by id   ----------------- */
       const addtocart = await Addtocart.find(getData);
-      // console.log("first addtocart", addtocart);
+      console.log("first addtocart", addtocart);
 
       let productIdArr = [];
-      addtocart?.productAddToCart?.map((e) => {
+      addtocart?.map((e) => {
+        console.log("fhfhf productID")
         productIdArr.push(e.productID);
       });
 

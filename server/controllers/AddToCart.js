@@ -37,16 +37,16 @@ module.exports.getAddtocart = {
 
       /*  ----------------- find Addtocart by id   ----------------- */
       const addtocart = await Addtocart.find(getData);
-      console.log("first addtocart", addtocart);
+      // console.log("first addtocart", addtocart);
 
       let productIdArr = [];
-      addtocart?.map((e) => {
+      addtocart?.productAddToCart?.map((e) => {
         productIdArr.push(e.productID);
       });
 
       console.log("productIdArr", productIdArr);
-      const product = await Product.find({ _id: { $in: productIdArr } });
-      console.log("product", product);
+      // const product = await Product.find({ _id: { $in: productIdArr } });
+      // console.log("product", product);
       /*  ----------------- check Addtocart exist ----------------- */
       if (!addtocart) {
         res.send(
@@ -61,7 +61,7 @@ module.exports.getAddtocart = {
         successResponse(
           StatusCodes.OK,
           false,
-          product,
+          // product,
           MSG.FOUND_SUCCESS,
           addtocart
         )
@@ -82,8 +82,7 @@ module.exports.Addaddtocart = {
     try {
       let data = {
         userID: req.params.userID,
-        productID: req.params.productID,
-        count: req.params.count,
+        productAddToCart: req.body.productAddToCart,
       };
       console.log("first addtocart called", data);
       /*  ----------------- create a new Addtocart ----------------- */

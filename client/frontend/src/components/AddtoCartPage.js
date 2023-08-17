@@ -8,7 +8,7 @@ import axios from "axios";
 
 function AddtoCartPage() {
   const [res, setRes] = useState(false);
-  const [count, setCount] = useState({ id: "", count: 0 });
+  const [count, setCount] = useState({ id: "", count: 1 });
   const [cartdata, setCartdata] = useState([]);
   const history = useNavigate();
   const backToHome = () => {
@@ -21,11 +21,10 @@ function AddtoCartPage() {
       let userIDget = localStorage.getItem("userID");
       console.log("userID....... addtocarpage file", userIDget);
       await axios
-        .get(
-          `https://node-crud-only.onrender.com/addtocart/get-addtocart/${userIDget}`
-        )
+        .get(`http://localhost:5400/addtocart/get-addtocart/${userIDget}`)
         .then((response) => {
-          setCartdata(response?.data?.message);
+          setCartdata(response?.data?.result);
+          console.log("get addtocart", response?.data);
         })
         .catch((err) => {
           console.log(err);
@@ -55,31 +54,42 @@ function AddtoCartPage() {
   };
 
   const Increment = (id) => {
-    const updatedData = cartdata.map((item) => {
+    let updatedData = cartdata.map((item) => {
       if (item._id === id) {
-        const countd = item.count ? item.count + 1 : 1;
-        console.log("count", "item.count", item.count, countd);
-        return { ...item, count: countd };
+        const countincrement = item.count ? item.count + 1 : 1;
+        console.log(" Increment count", countincrement);
+        return { ...item, count: countincrement };
       }
       return item;
     });
     console.log("Increment", updatedData);
     setCartdata(updatedData);
-    console.log("data", cartdata[1]?.count);
+
+    let Price = cartdata[0].productPrice;
+
+    let cartTotal = Price * updatedData[0].count;
+    console.log("cartTotal", cartTotal);
+
+    console.log("cart Price", Price);
   };
 
   const Decrement = (id) => {
     const updatedData = cartdata.map((item) => {
       if (item._id === id) {
-        const countd = item.count ? item.count - 1 : 0;
-        console.log("count", "item.count", item.count, countd);
-        return { ...item, count: countd };
+        const countdecrement = item.count ? item.count - 1 : 0;
+        console.log(" Decrement count", countdecrement);
+        return { ...item, count: countdecrement };
       }
       return item;
     });
     console.log("Decrement", updatedData);
     setCartdata(updatedData);
-    console.log("data", cartdata[1]?.count);
+
+    let Price = cartdata[0].productPrice;
+    let cartTotal = Price * updatedData[0].count;
+    let cartTotalDecrement = cartTotal - updatedData[0].count;
+
+    console.log("cartDecrement", cartTotalDecrement);
     if (count === 1) {
       alert("Negative quantity not allowed");
     } else {
@@ -268,7 +278,7 @@ function AddtoCartPage() {
                               padding: "0 .5rem",
                             }}
                             type="text"
-                            value={element.count ? element.count : 0}
+                            value={element.count ? element.count : 1}
                           />
                           <Button
                             style={{

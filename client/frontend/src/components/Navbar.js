@@ -34,14 +34,16 @@ function ResponsiveAppBar() {
   // get single data loaded
   const Addtocart = async () => {
     try {
-      let userIDget = localStorage.getItem("userID");
+      let userIDget = localStorage.getItem("userID"); 
+      let count = localStorage.getItem("count");
       console.log("userID....... addtocarpage file", userIDget);
+      console.log("count....... addtocarpage file", count);
       await axios
         .get(
-          `https://node-crud-only.onrender.com/addtocart/get-addtocart/${userIDget}`
+          `http://localhost:5400/addtocart/get-addtocart/${userIDget}`
         )
         .then((response) => {
-          setCartdata(response?.data?.message);
+          setCartdata(response?.data?.result);
         })
         .catch((err) => {
           console.log(err);

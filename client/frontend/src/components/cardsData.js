@@ -96,11 +96,21 @@ const CardData = () => {
     console.log("userID carddata file", userIDget);
     console.log("productID carddata file", id);
     console.log("count carddata file", count);
+
     await axios
-      .post(
-        `https://node-crud-only.onrender.com/addtocart/add-addtocart/${userIDget}/${id}/${count}`
-      )
+      .post(`http://localhost:5400/addtocart/add-addtocart/${userIDget}`, {
+        productAddToCart: [
+          {
+            productID: id,
+            count: count,
+          },
+        ],
+      })
       .then((data) => {
+        let countStoreLocalStorage = count;
+        let countStore = localStorage.setItem("count", countStoreLocalStorage);
+        console.log("countStore", countStore);
+
         console.log("first...", data);
       })
       .catch((err) => {

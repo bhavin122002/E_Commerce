@@ -19,7 +19,7 @@ router.get("/getall-addtocart", getAllAddtocart.controller);
 router.get("/get-addtocart/:userID", getAddtocart.controller);
 
 /* ------------------------  post category  ------------------------ */
-router.post("/add-addtocart/:userID/:productID/:count", Addaddtocart.controller);
+router.post("/add-addtocart/:userID", Addaddtocart.controller);
 
 /* ------------------------  update category  ------------------------ */
 router.post("/update-addtocart/:productID", UpdateAddtocart.controller);

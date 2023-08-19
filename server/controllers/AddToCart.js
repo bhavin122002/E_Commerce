@@ -37,12 +37,12 @@ module.exports.getAddtocart = {
 
       /*  ----------------- find Addtocart by id   ----------------- */
       const addtocart = await Addtocart.find(getData);
-      console.log("first addtocart", addtocart);
+      // console.log("first addtocart", addtocart);
 
       let productIdArr = [];
-      addtocart?.map((e) => {
-        console.log("fhfhf productID")
-        productIdArr.push(e.productID);
+
+      addtocart?.map((element) => {
+        productIdArr.push(element.productID);
       });
 
       console.log("productIdArr", productIdArr);
@@ -81,15 +81,29 @@ module.exports.getAddtocart = {
 module.exports.Addaddtocart = {
   controller: async (req, res) => {
     try {
-      let data = {
-        userID: req.params.userID,
-        productAddToCart: req.body.productAddToCart,
-      };
-      console.log("first addtocart called", data);
       /*  ----------------- create a new Addtocart ----------------- */
-      let addtocart = await Addtocart.create(data);
+      const { userID } = req.params;
+      const { productAddToCart } = req.body;
+
+      const existdata = await Addtocart.findOne({ userID });
+      console.log("existdata", existdata);
+
+      let result;
+      if (existdata) {
+        result = await Addtocart.findOneAndUpdate(
+          { _id: existdata._id },
+          { $push: { productAddToCart: productAddToCart } }
+        );
+      } else {
+        result = await Addtocart.create({
+          userID,
+          productAddToCart,
+        });
+      }
+      console.log("first", result);
+
       return res.send(
-        successResponse(StatusCodes.OK, false, MSG.CREATE_SUCCESS, addtocart)
+        successResponse(StatusCodes.OK, false, MSG.CREATE_SUCCESS, result)
       );
     } catch (err) {
       console.log(err);

@@ -3,12 +3,12 @@ const mongoose = require("mongoose");
 const AddtocartSchema = new mongoose.mongoose.Schema(
   {
     userID: {
-      type: String,
+      type: mongoose.Types.ObjectId,
     },
     productAddToCart: [
       {
         productID: {
-          type: String,
+          type: mongoose.Types.ObjectId,
         },
         count: {
           type: String,

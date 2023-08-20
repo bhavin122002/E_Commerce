@@ -1,4 +1,5 @@
 const { default: mongoose } = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 const Addtocart = require("../models/AddtoCart");
 const { MSG } = require("../helper/constant");
 const { errorResponse, successResponse } = require("../helper/general");
@@ -30,26 +31,61 @@ module.exports.getAllAddtocart = {
 module.exports.getAddtocart = {
   controller: async (req, res) => {
     try {
-      let getData = {
-        userID: req.params.userID,
-      };
-      console.log("first time getAddtocart......", getData);
+      const { userID } = req.params;
 
-      /*  ----------------- find Addtocart by id   ----------------- */
-      const addtocart = await Addtocart.find(getData);
-      // console.log("first addtocart", addtocart);
+      const result = await Addtocart.aggregate([
+        {
+          $match: { userID: new mongoose.Types.ObjectId(userID) },
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "productAddToCart.productID",
+            foreignField: "_id",
+            as: "product",
+          },
+        },
+        {
+          $unwind: "$productAddToCart",
+        },
+        {
+          $addFields: {
+            product: {
+              $arrayElemAt: ["$product", 0],
+            },
+          },
+        },
+        {
+          $group: {
+            _id: {
+              _id: "$_id",
+              userID: "$userID",
+              createdAt: "$createdAt",
+              updatedAt: "$updatedAt",
+            },
+            productAddToCart: {
+              $push: {
+                productID: "$productAddToCart.productID",
+                count: "$productAddToCart.count",
+                _id: "$productAddToCart._id",
+                product: "$product",
+              },
+            },
+          },
+        },
+        {
+          $project: {
+            _id: "$_id._id",
+            userID: "$_id.userID",
+            productAddToCart: 1,
+            createdAt: "$_id.createdAt",
+            updatedAt: "$_id.updatedAt",
+          },
+        },
+      ]);
 
-      let productIdArr = [];
-
-      addtocart?.map((element) => {
-        productIdArr.push(element.productID);
-      });
-
-      console.log("productIdArr", productIdArr);
-      // const product = await Product.find({ _id: { $in: productIdArr } });
-      // console.log("product", product);
-      /*  ----------------- check Addtocart exist ----------------- */
-      if (!addtocart) {
+      // /*  ----------------- check Addtocart exist ----------------- */
+      if (!result) {
         res.send(
           errorResponse(
             StatusCodes.INTERNAL_SERVER_ERROR,
@@ -64,7 +100,7 @@ module.exports.getAddtocart = {
           false,
           // product,
           MSG.FOUND_SUCCESS,
-          addtocart
+          result[0]
         )
       );
     } catch (err) {
@@ -85,22 +121,29 @@ module.exports.Addaddtocart = {
       const { userID } = req.params;
       const { productAddToCart } = req.body;
 
-      const existdata = await Addtocart.findOne({ userID });
-      console.log("existdata", existdata);
+      const existData = await Addtocart.findOne({ userID });
 
       let result;
-      if (existdata) {
-        result = await Addtocart.findOneAndUpdate(
-          { _id: existdata._id },
-          { $push: { productAddToCart: productAddToCart } }
+      if (existData) {
+        const existingProductIndex = existData.productAddToCart.findIndex(
+          (item) => {
+            return item.productID == productAddToCart.productID;
+          }
         );
+        if (existingProductIndex !== -1) {
+          existData.productAddToCart[existingProductIndex].count =
+            productAddToCart.count;
+          result = await existData.save();
+        } else {
+          existData.productAddToCart.push(productAddToCart);
+          result = await existData.save();
+        }
       } else {
         result = await Addtocart.create({
           userID,
           productAddToCart,
         });
       }
-      console.log("first", result);
 
       return res.send(
         successResponse(StatusCodes.OK, false, MSG.CREATE_SUCCESS, result)

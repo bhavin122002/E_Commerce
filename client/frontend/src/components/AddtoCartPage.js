@@ -10,6 +10,7 @@ function AddtoCartPage() {
   const [res, setRes] = useState(false);
   const [count, setCount] = useState({ id: "", count: 1 });
   const [cartdata, setCartdata] = useState([]);
+  console.log("cartdata ===", cartdata);
   const history = useNavigate();
   const backToHome = () => {
     history("/product/Rings");
@@ -19,12 +20,11 @@ function AddtoCartPage() {
   const Addtocart = async () => {
     try {
       let userIDget = localStorage.getItem("userID");
-      console.log("userID....... addtocarpage file", userIDget);
+      console.log(" user", userIDget);
       await axios
         .get(`http://localhost:5400/addtocart/get-addtocart/${userIDget}`)
         .then((response) => {
-          setCartdata(response?.data?.result);
-          console.log("get addtocart", response?.data);
+          setCartdata(response?.data?.result?.productAddToCart);
         })
         .catch((err) => {
           console.log(err);
@@ -189,7 +189,7 @@ function AddtoCartPage() {
                   >
                     <img
                       className="image_class"
-                      src={element.productImage}
+                      src={element.product.productImage}
                       alt="No image found"
                     />
                   </div>
@@ -207,7 +207,7 @@ function AddtoCartPage() {
                         }}
                       >
                         {" "}
-                        {element.productName}
+                        {element.product.productName}
                       </span>
                     </div>
 
@@ -228,7 +228,7 @@ function AddtoCartPage() {
                           Metal <span style={{ paddingLeft: "40px" }}> : </span>
                         </span>
                         <span style={{ paddingLeft: "25px" }}>
-                          <b>{element.productMetal}</b>
+                          <b>{element.product.productMetal}</b>
                         </span>
                       </div>
                       <div
@@ -247,7 +247,7 @@ function AddtoCartPage() {
                           Size <span style={{ paddingLeft: "55px" }}> : </span>
                         </span>
                         <span style={{ paddingLeft: "23px" }}>
-                          {element.productSize}
+                          {element.product.productSize}
                         </span>
                       </div>
                       <div style={{ margin: "15px 20px" }}>
@@ -316,7 +316,7 @@ function AddtoCartPage() {
                       paddingRight: "10px",
                     }}
                   >
-                    ₹ {element.productPrice}
+                    ₹ {element.product.productPrice}
                   </span>
                   <span
                     style={{
@@ -327,7 +327,7 @@ function AddtoCartPage() {
                       paddingRight: "20px",
                     }}
                   >
-                    {element.dummyPrice}
+                    {element.product.dummyPrice}
                   </span>
                 </div>
               </div>

@@ -11,7 +11,7 @@ const AddtocartSchema = new mongoose.mongoose.Schema(
           type: mongoose.Types.ObjectId,
         },
         count: {
-          type: String,
+          type: Number,
         },
       },
     ],

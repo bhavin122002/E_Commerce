@@ -17,8 +17,7 @@ import axios from "axios";
 function ResponsiveAppBar() {
   const [value, setValue] = useState();
   const [cartdata, setCartdata] = useState([]);
-
-  console.log("first argument", cartdata);
+  console.log("first value set to cartdata", cartdata)
 
   // Page auto refreshed
   const [refresh, setRefresh] = useState(false);
@@ -34,16 +33,11 @@ function ResponsiveAppBar() {
   // get single data loaded
   const Addtocart = async () => {
     try {
-      let userIDget = localStorage.getItem("userID"); 
-      let count = localStorage.getItem("count");
-      console.log("userID....... addtocarpage file", userIDget);
-      console.log("count....... addtocarpage file", count);
+      let userIDget = localStorage.getItem("userID");
       await axios
-        .get(
-          `http://localhost:5400/addtocart/get-addtocart/${userIDget}`
-        )
+        .get(`http://localhost:5400/addtocart/get-addtocart/${userIDget}`)
         .then((response) => {
-          setCartdata(response?.data?.result);
+          setCartdata(response?.data?.result?.productAddToCart);
         })
         .catch((err) => {
           console.log(err);

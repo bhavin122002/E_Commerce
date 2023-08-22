@@ -95,13 +95,7 @@ module.exports.getAddtocart = {
         );
       }
       res.send(
-        successResponse(
-          StatusCodes.OK,
-          false,
-          // product,
-          MSG.FOUND_SUCCESS,
-          result[0]
-        )
+        successResponse(StatusCodes.OK, false, MSG.FOUND_SUCCESS, result[0])
       );
     } catch (err) {
       console.log(err);
@@ -121,6 +115,16 @@ module.exports.Addaddtocart = {
       const { userID } = req.params;
       const { productAddToCart } = req.body;
 
+      console.log("productAddToCart", productAddToCart);
+
+      let xyz = productAddToCart.map((res) => {
+        let productIDs = res.productID;
+        console.log("firstProductID", res.productID);
+
+        const productID = new mongoose.Types.ObjectId(productIDs);
+        console.log("Susseccfully Created", productID);
+      });
+      
       const existData = await Addtocart.findOne({ userID });
 
       let result;

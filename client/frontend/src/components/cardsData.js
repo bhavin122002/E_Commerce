@@ -93,9 +93,8 @@ const CardData = () => {
 
   const AddtoCartPage = async (id, count) => {
     let userIDget = localStorage.getItem("userID");
-    console.log("userID carddata file", userIDget);
     console.log("productID carddata file", id);
-    console.log("count carddata file", count);
+    console.log("count carddata file", typeof count);
 
     await axios
       .post(`http://localhost:5400/addtocart/add-addtocart/${userIDget}`, {
@@ -106,12 +105,12 @@ const CardData = () => {
           },
         ],
       })
-      .then((data) => {
-        let countStoreLocalStorage = count;
-        let countStore = localStorage.setItem("count", countStoreLocalStorage);
-        console.log("countStore", countStore);
+      .then((res) => {
+        // let countStoreLocalStorage = count;
+        // let countStore = localStorage.setItem("count", countStoreLocalStorage);
+        // console.log("countStore", countStore);
 
-        console.log("first...", data);
+        console.log("first...", res?.data);
       })
       .catch((err) => {
         console.log(err);
@@ -126,21 +125,19 @@ const CardData = () => {
     const updatedData = data.map((item) => {
       if (item._id === id) {
         const countd = item.count ? item.count + 1 : 1;
-        console.log("count", "item.count", item.count, countd);
         return { ...item, count: countd };
       }
       return item;
     });
     console.log("Increment", updatedData);
     setData(updatedData);
-    console.log("data", data[1]?.count);
+    // console.log("data", data[1]?.count);
   };
 
   const Decrement = (id) => {
     const updatedData = data.map((item) => {
       if (item._id === id) {
         const countd = item.count ? item.count - 1 : 0;
-        console.log("count", "item.count", item.count, countd);
         return { ...item, count: countd };
       }
       return item;

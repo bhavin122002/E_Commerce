@@ -1,5 +1,4 @@
 const { default: mongoose } = require("mongoose");
-const ObjectId = mongoose.Types.ObjectId;
 const Addtocart = require("../models/AddtoCart");
 const { MSG } = require("../helper/constant");
 const { errorResponse, successResponse } = require("../helper/general");
@@ -115,23 +114,29 @@ module.exports.Addaddtocart = {
       const { userID } = req.params;
       const { productAddToCart } = req.body;
 
-      console.log("productAddToCart", productAddToCart);
+      const existData = await Addtocart.findOne({ userID });
 
       let xyz = productAddToCart.map((res) => {
         let productIDs = res.productID;
-        console.log("firstProductID", res.productID);
+        let count = res.count;
 
-        const productID = new mongoose.Types.ObjectId(productIDs);
-        console.log("Susseccfully Created", productID);
+        const data = {
+          productID: new mongoose.Types.ObjectId(productIDs),
+          count: count,
+        };
+
+        return data;
       });
-      
-      const existData = await Addtocart.findOne({ userID });
+      console.log("xyz", xyz);
 
       let result;
+      let productIDConvreted = xyz[0];
+      console.log(" productIDConvreted;;;;;", productIDConvreted);
+
       if (existData) {
         const existingProductIndex = existData.productAddToCart.findIndex(
           (item) => {
-            return item.productID == productAddToCart.productID;
+            return item.productIDConvreted == productAddToCart.productID;
           }
         );
         if (existingProductIndex !== -1) {
@@ -139,7 +144,7 @@ module.exports.Addaddtocart = {
             productAddToCart.count;
           result = await existData.save();
         } else {
-          existData.productAddToCart.push(productAddToCart);
+          existData.productAddToCart.push(productIDConvreted);
           result = await existData.save();
         }
       } else {

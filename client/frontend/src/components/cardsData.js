@@ -106,10 +106,6 @@ const CardData = () => {
         ],
       })
       .then((res) => {
-        // let countStoreLocalStorage = count;
-        // let countStore = localStorage.setItem("count", countStoreLocalStorage);
-        // console.log("countStore", countStore);
-
         console.log("first...", res?.data);
       })
       .catch((err) => {

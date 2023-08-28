@@ -112,48 +112,36 @@ module.exports.Addaddtocart = {
     try {
       /*  ----------------- create a new Addtocart ----------------- */
       const { userID } = req.params;
-      const { productAddToCart } = req.body;
+      const { productID, count } = req.body;
+
+      const ProductObjectId = new mongoose.Types.ObjectId(productID);
 
       const existData = await Addtocart.findOne({ userID });
 
-      let xyz = productAddToCart.map((res) => {
-        let productIDs = res.productID;
-        let count = res.count;
-
-        const data = {
-          productID: new mongoose.Types.ObjectId(productIDs),
-          count: count,
-        };
-
-        return data;
-      });
-      console.log("xyz", xyz);
-
       let result;
-      let productIDConvreted = xyz[0];
-      console.log(" productIDConvreted;;;;;", productIDConvreted);
 
       if (existData) {
-        const existingProductIndex = existData.productAddToCart.findIndex(
-          (item) => {
-            return item.productIDConvreted == productAddToCart.productID;
-          }
+        const matchProductIndex = existData.productAddToCart.findIndex((item) =>
+          item.productID.equals(ProductObjectId)
         );
-        if (existingProductIndex !== -1) {
-          existData.productAddToCart[existingProductIndex].count =
-            productAddToCart.count;
-          result = await existData.save();
-        } else {
-          existData.productAddToCart.push(productIDConvreted);
-          result = await existData.save();
-        }
-      } else {
-        result = await Addtocart.create({
-          userID,
-          productAddToCart,
-        });
-      }
 
+        if (matchProductIndex !== -1) {
+          existData.productAddToCart[matchProductIndex].count = count;
+        } else {
+          existData.productAddToCart.push({
+            productID: ProductObjectId,
+            count,
+          });
+        }
+
+        result = await existData.save();
+      } else {
+        const newCart = new Addtocart({
+          userID,
+          productAddToCart: [{ productID: ProductObjectId, count }],
+        });
+        result = await newCart.save();
+      }
       return res.send(
         successResponse(StatusCodes.OK, false, MSG.CREATE_SUCCESS, result)
       );

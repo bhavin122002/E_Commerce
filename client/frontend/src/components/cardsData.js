@@ -93,20 +93,14 @@ const CardData = () => {
 
   const AddtoCartPage = async (id, count) => {
     let userIDget = localStorage.getItem("userID");
-    console.log("productID carddata file", id);
-    console.log("count carddata file", typeof count);
 
     await axios
       .post(`http://localhost:5400/addtocart/add-addtocart/${userIDget}`, {
-        productAddToCart: [
-          {
-            productID: id,
-            count: count,
-          },
-        ],
+        productID: id,
+        count: count,
       })
       .then((res) => {
-        console.log("first...", res?.data);
+        console.log("Response...", res?.data);
       })
       .catch((err) => {
         console.log(err);

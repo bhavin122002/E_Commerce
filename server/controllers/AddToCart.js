@@ -196,10 +196,12 @@ module.exports.UpdateAddtocart = {
 module.exports.DeleteAddtocart = {
   controller: async (req, res) => {
     try {
-      console.log("delete id", req.params.id);
+      const { id } = req.params;
+
+      console.log("delete id", id);
       /*  ----------------- find Addtocart by id   ----------------- */
       let addtocart = await Addtocart.deleteMany({
-        productID: req.params.id?.toString(),
+        productID: id?.toString(),
       });
       console.log("first addtocart", addtocart);
       /*  ----------------- check Addtocart exist   ----------------- */

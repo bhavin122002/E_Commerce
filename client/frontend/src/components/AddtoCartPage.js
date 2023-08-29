@@ -35,11 +35,12 @@ function AddtoCartPage() {
   };
 
   // Single Add To Cart Delete
-  const Cartremove = async (id) => {
+  const Cartremove = async (id) => {  
     try {
+      console.log("delete id", id)
       await axios
         .delete(
-          `https://node-crud-only.onrender.com/addtocart/delete-addtocart/${id}`
+          `http://localhost:5400/addtocart/delete-addtocart/${id}`
         )
         .then(() => {
           setRes(true);
@@ -86,11 +87,11 @@ function AddtoCartPage() {
     setCartdata(updatedData);
 
     let Price = cartdata[0].productPrice;
-    let cartTotal = Price * updatedData[0].count;
+    let cartTotal = Price - updatedData[0].count;
     let cartTotalDecrement = cartTotal - updatedData[0].count;
 
     console.log("cartDecrement", cartTotalDecrement);
-    if (count === 1) {
+    if (count === 0) {
       alert("Negative quantity not allowed");
     } else {
       setCount(count.count - 1);

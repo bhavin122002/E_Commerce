@@ -28,7 +28,7 @@ const CardData = () => {
   const [data, setData] = useState("");
   let { category } = useParams();
   const [page, setPage] = useState(1);
-  const [count, setCount] = useState({ id: "", count: 0 });
+  const [count, setCount] = useState({ id: "", count: 1 });
   const [keyword, setkayword] = useState("");
   const [pageSize, setpageSize] = useState("");
   const [sortKey] = useState("");
@@ -108,6 +108,7 @@ const CardData = () => {
   };
 
   useEffect(() => {
+    fetchData();
     handleChangepageSize();
   }, [page, pageSize, sortorder, sortKey, keyword]);
 
@@ -135,16 +136,12 @@ const CardData = () => {
     console.log("Decrement", updatedData);
     setData(updatedData);
     console.log("data", data[1]?.count);
-    if (count.count === 0) {
+    if (count.count === 1) {
       alert("Negative quantity not allowed");
     } else {
       setCount(count.count - 1);
     }
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <>

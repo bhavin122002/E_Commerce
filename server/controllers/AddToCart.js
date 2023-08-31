@@ -196,14 +196,31 @@ module.exports.UpdateAddtocart = {
 module.exports.DeleteAddtocart = {
   controller: async (req, res) => {
     try {
-      const { id } = req.params;
-
-      console.log("delete id", id);
       /*  ----------------- find Addtocart by id   ----------------- */
-      let addtocart = await Addtocart.deleteMany({
-        productID: id?.toString(),
-      });
-      console.log("first addtocart", addtocart);
+
+      const { id, userID } = req.params;
+
+      const existData = await Addtocart.findOne({ userID });
+      console.log("addtocart", existData);
+      const ProductObjectId = new mongoose.Types.ObjectId(id);
+      console.log("ProductObjectId", ProductObjectId);
+
+      if (existData) {
+        const matchProductIndex = existData.productAddToCart.findIndex((item) =>
+          item.productID.equals(ProductObjectId)
+        );
+
+        console.log("first match", matchProductIndex);
+
+        if (matchProductIndex !== -1) {
+          let addtocart = await Addtocart.deleteMany(matchProductIndex);
+          console.log("first addtocart", addtocart);
+        } else {
+          console.log("Delete Failed...");
+        }
+      }
+      let addtocart = await existData.save();
+
       /*  ----------------- check Addtocart exist   ----------------- */
       if (!addtocart) {
         return res.send(

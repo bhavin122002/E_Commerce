@@ -25,6 +25,6 @@ router.post("/add-addtocart/:userID", Addaddtocart.controller);
 router.post("/update-addtocart/:productID", UpdateAddtocart.controller);
 
 /* ------------------------  delete category  ------------------------ */
-router.delete("/delete-addtocart/:id", DeleteAddtocart.controller);
+router.delete("/delete-addtocart/:userID/:id", DeleteAddtocart.controller);
 
 module.exports = router;

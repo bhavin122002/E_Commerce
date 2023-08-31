@@ -37,10 +37,11 @@ function AddtoCartPage() {
   // Single Add To Cart Delete
   const Cartremove = async (id) => {  
     try {
+      let userIDget = localStorage.getItem("userID");
       console.log("delete id", id)
       await axios
         .delete(
-          `http://localhost:5400/addtocart/delete-addtocart/${id}`
+          `http://localhost:5400/addtocart/delete-addtocart/${userIDget}/${id}`
         )
         .then(() => {
           setRes(true);
@@ -91,7 +92,7 @@ function AddtoCartPage() {
     let cartTotalDecrement = cartTotal - updatedData[0].count;
 
     console.log("cartDecrement", cartTotalDecrement);
-    if (count === 0) {
+    if (count === 1) {
       alert("Negative quantity not allowed");
     } else {
       setCount(count.count - 1);
@@ -317,7 +318,7 @@ function AddtoCartPage() {
                       paddingRight: "10px",
                     }}
                   >
-                    ₹ {element.product.productPrice}
+                    ₹ {element.count * element.product.productPrice}
                   </span>
                   <span
                     style={{
@@ -351,7 +352,7 @@ function AddtoCartPage() {
                     backgroundColor: "#f9f9f9",
                   }}
                   onClick={() => {
-                    Cartremove(element._id);
+                    Cartremove(element.productID);
                   }}
                 >
                   <span

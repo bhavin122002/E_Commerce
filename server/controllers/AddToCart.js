@@ -213,8 +213,16 @@ module.exports.DeleteAddtocart = {
         console.log("first match", matchProductIndex);
 
         if (matchProductIndex !== -1) {
-          let addtocart = await Addtocart.deleteMany(matchProductIndex);
+          const productToDelete = existData.productAddToCart[matchProductIndex];
+          let addtocart = await Addtocart.deleteOne({
+            productID: productToDelete.productID,
+          });
           console.log("first addtocart", addtocart);
+          if (addtocart.deletedCount > 0) {
+            console.log("Product deleted from cart:", productToDelete);
+          } else {
+            console.log("Delete Failed...");
+          }
         } else {
           console.log("Delete Failed...");
         }

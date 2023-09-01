@@ -17,6 +17,7 @@ import axios from "axios";
 function ResponsiveAppBar() {
   const [value, setValue] = useState();
   const [cartdata, setCartdata] = useState([]);
+  const [res, setRes] = useState(false);
   console.log("first value set to cartdata", cartdata)
 
   // Page auto refreshed
@@ -37,6 +38,7 @@ function ResponsiveAppBar() {
       await axios
         .get(`http://localhost:5400/addtocart/get-addtocart/${userIDget}`)
         .then((response) => {
+          setRes(true);
           setCartdata(response?.data?.result?.productAddToCart);
         })
         .catch((err) => {
@@ -54,7 +56,7 @@ function ResponsiveAppBar() {
   useEffect(() => {
     handleRefresh();
     Addtocart();
-  }, []);
+  }, [res]);
 
   return (
     <AppBar position="static">

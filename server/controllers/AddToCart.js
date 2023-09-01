@@ -210,21 +210,18 @@ module.exports.DeleteAddtocart = {
           item.productID.equals(ProductObjectId)
         );
 
-        console.log("first match", matchProductIndex);
+        console.log("match Index", matchProductIndex);
 
         if (matchProductIndex !== -1) {
           const productToDelete = existData.productAddToCart[matchProductIndex];
-          let addtocart = await Addtocart.deleteOne({
-            productID: productToDelete.productID,
-          });
+          console.log("Delete Index for ProductID::", productToDelete);
+          let addtocart = existData.productAddToCart.splice(
+            matchProductIndex,
+            1
+          );
           console.log("first addtocart", addtocart);
-          if (addtocart.deletedCount > 0) {
-            console.log("Product deleted from cart:", productToDelete);
-          } else {
-            console.log("Delete Failed...");
-          }
         } else {
-          console.log("Delete Failed...");
+          console.log("Product not found in cart...");
         }
       }
       let addtocart = await existData.save();

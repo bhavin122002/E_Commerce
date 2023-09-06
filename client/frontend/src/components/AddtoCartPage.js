@@ -35,10 +35,10 @@ function AddtoCartPage() {
   };
 
   // Single Add To Cart Delete
-  const Cartremove = async (id) => {  
+  const Cartremove = async (id) => {
     try {
       let userIDget = localStorage.getItem("userID");
-      console.log("delete id", id)
+      console.log("delete id", id);
       await axios
         .delete(
           `http://localhost:5400/addtocart/delete-addtocart/${userIDget}/${id}`
@@ -318,7 +318,7 @@ function AddtoCartPage() {
                       paddingRight: "10px",
                     }}
                   >
-                    ₹ {element.count * element.product.productPrice}
+                    ₹ {element.product.productPrice * element.count}
                   </span>
                   <span
                     style={{
